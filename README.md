@@ -1,7 +1,7 @@
-Real Estate Web App
+Terra - Real Estate Web App
 
 Getting Started
-To run the RealSense web app on your local machine, follow these steps:
+To run Terra on your local machine, follow these steps:
 
 1. Clone the Repository
    git clone <https://github.com/8zali9/real-estate-project.git>

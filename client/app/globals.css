@@ -8,6 +8,20 @@
     src: url('/overpass-bold.otf') format('truetype');
 }
 
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 100%;
+}
+  
+*::-webkit-scrollbar-track {
+    background: white;
+}
+  
+*::-webkit-scrollbar-thumb {
+    background-color: #161a1d;
+    border-radius: 2px;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -15,97 +29,10 @@ body {
     background-color: white;
 }
 
-.header{
+.main-page{
     display: flex;
-    width: 100%;
-    height: 80px;
-    justify-content: space-between;
-    align-items: center;
-    /* background-color:#212529; */
-    background-color:#161a1d;
-    z-index: 1;
-    color: white;
-}
-
-.header-logo {
-    font-family: "genos";
-    margin-left: 40px;
-    font-size: 30px;
-}
-
-.header-links{
-    font-family: "overpass";
-    display: flex;
-    align-items: center;
-    align-self: center;
-    justify-content: space-evenly;
-    gap: 40px;
-    margin-right: 40px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #e2e2e2;
-}
-
-.searchicon{
-    font-size: 20px;
-    margin-bottom: 5px;
-    cursor: pointer;
-}
-
-.searchpage{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items:flex-start;
-    justify-content:flex-start;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    flex-direction: column;
     margin: 0;
     padding: 0;
-    background-color: white;
-    z-index: 1;
-    color: black;
-}
-
-.search-close{
-    font-size: 40px;
-    font-weight: bold;
-    color: #002f49c0;
-    margin-right: 40px;
-    margin-bottom: 100px;
-    margin-top: 10px;
-    transition: 0.2s ease;
-}
-
-.search-close:hover{
-    color: #003049;
-}
-
-.searchbar{
-    font-family: "overpass";
-    border-bottom: 2px solid #002f4979;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    width: 90%;
-    padding-bottom: 30px;
-    padding-top: 30px;
-    height: 16px;
-    margin-top: 100px;
-    font-size: 40px;
-    transition: 0.2s ease;
-    border-top-left-radius: 4px;
-    color: #161a1d;
-}
-
-.searchbar:focus {
-    outline: none;
-    border-color: #003049;
-    background-color: #3d3d3d0a;
-}
-
-::placeholder{
-    color: #002f499a;
+    height: 100%;
 }

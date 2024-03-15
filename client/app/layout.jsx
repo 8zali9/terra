@@ -1,5 +1,5 @@
 import "./globals.css";
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import ToggleContextProvider from "./contextProviders/ToggleContextProvider";
 
 export const metadata = {
