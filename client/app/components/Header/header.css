@@ -1,0 +1,54 @@
+.header{
+    display: flex;
+    width: 100%;
+    height: 80px;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color:#212529; */
+    background-color:#161a1d;
+    z-index: 2;
+    color: white;
+}
+
+.header-logo {
+    font-family: "genos";
+    margin-left: 40px;
+    font-size: 30px;
+}
+
+.header-links{
+    font-family: "overpass";
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: space-evenly;
+    gap: 40px;
+    margin-right: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #e2e2e2;
+    z-index: 2;
+}
+
+.header-link{
+    color: #e2e2e2;
+    border-bottom: 2px solid #161a1d;
+    transition: 0.2s ease;
+}
+
+.header-link:hover{
+    color: white;
+    border-color: white;
+    cursor: pointer;
+}
+
+.searchicon{
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+.search-on {
+    color: #ffffff;
+}
