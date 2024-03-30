@@ -3,7 +3,6 @@
 import "./header.css";
 import React, { useContext } from 'react'
 import { IoSearch } from "react-icons/io5";
-import SearchBar from '../Search/SearchBar';
 import { FaBars } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -12,12 +11,7 @@ import { ToggleContext } from '../../contextProviders/ToggleContextProvider'
 import Link from "next/link";
 
 export default function Header() {
-  const {
-    searchToggle,
-    sidebarToggle,
-    handleSearchToggle,
-    handleSidebarToggle
-  } = useContext(ToggleContext)
+  const { sidebarToggle, handleSidebarToggle } = useContext(ToggleContext)
 
   return (
     <div className='header'>
@@ -39,8 +33,6 @@ export default function Header() {
         <p className="header-link">About <RiArrowDropDownLine /></p>
         <p className="header-link">Contacts <RiArrowDropDownLine /></p>
         <Link href='/new-projects' className="header-link">New Projects <RiArrowDropDownLine /></Link>
-        {/* <SearchBar />
-        <IoSearch onClick={handleSearchToggle} className={`searchicon ${searchToggle ? "search-on" : ""}`} /> */}
       </div>
 
       <div className="header-signs-property-div">
