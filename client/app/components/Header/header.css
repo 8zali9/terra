@@ -1,48 +1,124 @@
-.header{
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
     display: flex;
     width: 100%;
     height: 80px;
     justify-content: space-between;
     align-items: center;
-    /* background-color:#212529; */
-    background-color:#161a1d;
-    z-index: 2;
-    color: white;
+    background-color: white;
+    z-index: 1000;
+    color: black;
+    box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.014);
+}
+
+.header-logo-sidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-left: 10px;
+}
+
+.sidebar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .header-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.header-logo-name {
     font-family: "genos";
-    margin-left: 40px;
     font-size: 30px;
 }
 
-.header-links{
+.header-links {
     font-family: "overpass";
     display: flex;
     align-items: center;
     align-self: center;
     justify-content: space-evenly;
-    gap: 40px;
+    gap: 30px;
     margin-right: 40px;
     font-size: 15px;
     font-weight: bold;
-    color: #e2e2e2;
-    z-index: 2;
+    margin-left: 140px;
 }
 
-.header-link{
-    color: #e2e2e2;
-    border-bottom: 2px solid #161a1d;
+.header-link {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    color: black;
     transition: 0.2s ease;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 8px;
+    gap: 5px;
 }
 
-.header-link:hover{
-    color: white;
-    border-color: white;
+.header-link:hover {
+    background-color: rgba(255, 166, 0, 0.205);
     cursor: pointer;
 }
 
-.searchicon{
+.header-signs-property-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-right: 10px;
+}
+
+.header-signs-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 4px;
+    transition: 0.5s ease;
+    border: 1px solid rgba(255, 68, 0, 0.452);
+}
+
+.header-signin-btn,
+.header-signup-btn {
+    border-radius: 4px;
+    padding: 8px;
+    transition: 0.2s ease;
+}
+
+.header-signin-btn:hover,
+.header-signup-btn:hover {
+    background-color: rgba(255, 68, 0, 0.452);
+}
+
+.header-add-property-btn {
+    border: 1px solid orangered;
+    background-color: orangered;
+    padding: 8px;
+    border-radius: 4px;
+    color: white;
+    transition: 0.2s ease;
+}
+
+.header-add-property-btn:hover {
+    background-color: white;
+    color: black;
+}
+
+/* .searchicon {
     font-size: 20px;
     margin-bottom: 5px;
     margin-left: -40px;
@@ -51,4 +127,4 @@
 
 .search-on {
     color: #ffffff;
-}
+} */

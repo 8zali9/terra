@@ -1,4 +1,4 @@
-.images{
+.images {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -6,28 +6,34 @@
     width: 100%;
 }
 
+.homepage {
+    z-index: -1000;
+}
+
 .homepage img {
     opacity: 0;
     position: absolute;
     transition: opacity 1s ease, transform 1s ease;
+    z-index: -1000;
 }
-  
+
 .homepage img.active {
     opacity: 1;
     transform: scale(1);
 }
 
 .image-content-div {
-    position:absolute;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     align-items: self-start;
     flex-direction: column;
-  }
-  
-  .image-content {
+    z-index: -1000;
+}
+
+.image-content {
     display: flex;
     font-family: genos;
     align-items: self-start;
@@ -42,7 +48,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);    
+    -webkit-backdrop-filter: blur(20px);
     width: 40%;
     height: 73.5%;
     margin-top: 80px;

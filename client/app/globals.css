@@ -12,11 +12,11 @@
     width: 10px;
     height: 100%;
 }
-  
+
 *::-webkit-scrollbar-track {
     background: white;
 }
-  
+
 *::-webkit-scrollbar-thumb {
     background-color: #161a1d;
     border-radius: 2px;
@@ -29,10 +29,14 @@ body {
     background-color: white;
 }
 
-.main-page{
+.main-page {
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
     height: 100%;
 }
+
+/* .div{
+    color: black;
+} */
