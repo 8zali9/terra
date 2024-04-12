@@ -1,5 +1,6 @@
 "use client";
 
+import Header from './components/Header/Header';
 // import React, { useEffect, useState } from 'react'
 import First from './components/Homepage/first/First'
 import Second from './components/Homepage/second/Second';
@@ -22,13 +23,15 @@ export default function page() {
   // }, [])
 
   return (
-    <main className='main-page'>
-      <First />
-      <Second />
-      {/* <div className='div'>
-      {res}
-      </div> */}
-
-    </main>
+    <>
+      <Header />
+      <main className='main-page'>
+        <First />
+        <Second />
+        {/* <div className='div'>
+        {res}
+        </div> */}
+      </main>
+    </>
   )
 }

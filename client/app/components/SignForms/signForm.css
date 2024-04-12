@@ -1,0 +1,120 @@
+.sign-form-page {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    color: white;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+img {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 80%;
+    z-index: -1;
+    background: rgba(255, 127, 0, 0.12);
+}
+
+.sign-form-side-styles {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 2px;
+    /* border-right: 4px solid orangered; */
+}
+
+.terra-flipped-abb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.7px);
+    -webkit-backdrop-filter: blur(3.7px);
+    border-top: 1px solid rgba(255, 255, 255, 0.29);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.29);
+    width: 100%;
+    font-family: genos;
+}
+
+.terra-flipped-abb-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+    font-variant-caps: small-caps;
+    font-size: 25px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.sign-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 60%;
+    color: black;
+    padding-top: 70px;
+}
+
+legend {
+    font-size: 25px;
+    margin-bottom: 50px;
+    color: rgba(255, 68, 0, 0.795);
+    text-decoration: underline;
+}
+
+input {
+    border: 2px solid rgba(228, 178, 149, 0.473);
+    border-radius: 4px;
+    padding: 10px;
+    width: 70%;
+    transition: 0.2s ease;
+    margin-bottom: 15px;
+}
+
+input:focus {
+    outline: none;
+    border-color: orangered;
+    box-shadow: orangered;
+}
+
+::placeholder {
+    color: rgba(231, 148, 100, 0.473);
+}
+
+button {
+    margin-top: 20px;
+    background-color: rgba(255, 68, 0, 0.514);
+    padding: 8px;
+    width: 74%;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: 0.2s ease;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    cursor: pointer;
+    border-color: orangered;
+}
+
+.new-to-terra-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 68, 0, 0.514);
+    width: 70%;
+    color: rgba(196, 58, 8, 0.918);
+}

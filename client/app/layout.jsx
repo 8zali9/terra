@@ -1,5 +1,4 @@
 import "./globals.css";
-import Header from './components/Header/Header'
 import ToggleContextProvider from "./contextProviders/ToggleContextProvider";
 
 export const metadata = {
@@ -12,7 +11,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ToggleContextProvider>
-          <Header />
           {children}
         </ToggleContextProvider>
       </body>

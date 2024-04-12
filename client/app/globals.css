@@ -37,6 +37,9 @@ body {
     height: 100%;
 }
 
-/* .div{
-    color: black;
-} */
+/* PUBLIC */
+
+.header-logo-name {
+    font-family: "genos";
+    font-size: 30px;
+}
