@@ -1,0 +1,41 @@
+**Design Pattern & Architecture Integration**
+
+`Don't be overwhelmed by the caption, we will break this for you from sugarcane to sugar (don't consume it if you have diabetes!)`
+
+*--picking up the surfboard--*
+Whilst architecting and afterward designing the backend of Terra, our team considered three architectures on a broader level.
+The essential was to first structure the whole system we had all the stuff taken into account, the responding or consuming of events by the services or the basic request/response within the monolithic giant.
+
+Let's reverse engineer from what our system does, to how will it actually achieve what it should be doing.
+
+Terra lets users create seller accounts. Why seller accounts? Just as when you create a Youtube account, you are actually a YouTuber, having a channel. That depends on you whether you just view the content created by others (view properties posted by other sellers on Terra) or you post content on your channel (post properties as a seller on Terra).
+Therefore, the first service Terra provides is account creation.
+After an account is created, all of the sellers will be dealing with selling their properties. For us as a platform provider, will have to deal with another entity (just a professional term for a 'thing') other than the seller. This adds up to another service.
+To understand the services from the view point of a software team, assume a vendor who makes and sells clothes. The vendor has to manage the maintainability of the whole process of making each piece of cloth, manage to store it securely in a warehouse, manage to deliver this product to their customers in a safe manner, etc. Now consider the same vendor dealing with making clothes and wardrobes. These will be two separate services provided by that vendor. As Terra's team is providing its services.
+
+First of all, we shall be clear about how our services will be communicated.
+There are a total of four services:
+ 1. user service
+ 2. property service
+ 3. email-notification service
+ 4. ml-model recommender service
+
+From a technical & software standpoint, separating each service and dealing with one once, is to follow an architecture called Microservices.
+Within the microservices, the services communicate as follows:
+user - email-notification   -> event-based
+user - property             -> request/response
+property - ml-model         -> event-based
+_where event-based communication has publisher first and subscriber after_
+
+`user - email-notification`
+When a viewer creates an account, they interact with user service. This user service has an event bus/message queue. Email notification service is the subscriber/consumer of this event bus. Now for example, whenever a user account is created, an event is published by the user service to a message queue, which in turn notifies the email notification service that an event that is relevant to it has occurred. The email notification service consumes this event which was published by user-service. For simplicity, consuming an event means doing something in turn to that event. So in this example, the email notification service will send an email notification to the user who just created an account notifying them of their successful account creation.
+This essentially solves the problem of user service being directly engaged with another service where it is not needed, or responding to a bulk of requests which hinders performance.
+
+`user - property`
+A user when posts/updates/removes a property, the user service directly talks to the property service, i.e. providing the details of the user, etc.
+
+`property - ml-model`
+The communication between property and ml-model services occurs when the user searches for properties. So, whenever a search event is published by the property service, the ml-model is notified of this event, takes search parameters into account, makes some predictions of what related properties can a user be interested in, and sends those results directly to the client/user which is continuously listening it through a socket connection after the search was initiated.
+
+***Code-level***
+To make the system more maintainable, manageable, scalable, and future-proofed, clean architecture is followed.
