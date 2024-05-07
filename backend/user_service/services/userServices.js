@@ -5,28 +5,28 @@ const {
     deleteUser
 } = require('../dal/dataAccessLogic')
 
-const getUserService = (user_id) => { 
-    return getUser(user_id)
+const getUserService = async (user_id) => { 
+    return await getUser(user_id)
 }
 
-const createUserService = (
+const createUserService = async (
     user_id, first_name, last_name, email, password, phone_number, user_profile_image
 ) => {
-    return createUser(
+    return await createUser(
         user_id, first_name, last_name, email, password, phone_number, user_profile_image
     )
 }
 
-const updateUserService = (
+const updateUserService = async (
     first_name, last_name, email, password, phone_number, user_profile_image, user_id
 ) => {
-    return updateUser(
+    return await updateUser(
         first_name, last_name, email, password, phone_number, user_profile_image, user_id
     )
 }
 
-const deleteUserService = (user_id) => {
-    return deleteUser(user_id)
+const deleteUserService = async (user_id) => {
+    return await deleteUser(user_id)
 }
 
 const signinUserService = () => {}
