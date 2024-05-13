@@ -2,5 +2,5 @@
 
 queries -> dal -> servcies -> api -> server
 
-_dal - data access logic_
-_services - interacts with dal_
+_. dal - data access logic ._
+_. services - interacts with dal ._

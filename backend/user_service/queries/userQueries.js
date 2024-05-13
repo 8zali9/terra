@@ -5,17 +5,8 @@ const getUserQuery = `
 `;
 
 const createUserQuery = `
-    insert into User
-        (
-            user_id,
-            first_name,
-            last_name,
-            email,
-            password,
-            phone_number,
-            user_profile_image
-        )
-    values (?, ?, ?, ?, ?, ?, ?)
+    insert into User (user_id, first_name, last_name, email, password, phone_number) 
+    values (?, ?, ?, ?, ?, ?);
 `;
 
 const updateUserQuery = `
@@ -26,7 +17,6 @@ const updateUserQuery = `
             email = ?,
             password = ?,
             phone_number = ?,
-            user_profile_image = ?
         where user_id = ?
 `;
 
