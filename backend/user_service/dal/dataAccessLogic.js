@@ -4,6 +4,7 @@ require('dotenv').config()
 const util = require('util')
 const {
     getUserQuery,
+    getUserByEmailQuery,
     createUserQuery,
     updateUserQuery,
     deleteUserQuery
@@ -12,8 +13,8 @@ const {
 const accessData = async (query, [...queryParams]) => {
     try {
         const dbResponse = await db.promise().query(query, [...queryParams]);
-        if (dbResponse.length === 0) {
-            return { result: "user doesn't exist", dbStatus: dbStatusObject.dbError };
+        if (dbResponse[0].length == 0) {
+            return { result: "user doesn't exist", dbStatus: dbStatusObject.notFound };
         }
         return { response: dbResponse[0][0], dbStatus: dbStatusObject.ok };
     } catch (err) {
@@ -23,6 +24,10 @@ const accessData = async (query, [...queryParams]) => {
 
 const getUser = async (user_id) => {
     return await accessData(getUserQuery, [user_id])
+}
+
+const getUserByEmail = async (userEmail) => {
+    return await accessData(getUserByEmailQuery, [userEmail])
 }
 
 const createUser = async(user_id, first_name, last_name, email, password, phone_number) => {
@@ -39,6 +44,7 @@ const deleteUser = async(user_id) => {
 
 module.exports = {
     getUser,
+    getUserByEmail,
     createUser,
     updateUser,
     deleteUser
