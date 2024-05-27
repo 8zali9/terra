@@ -111,6 +111,8 @@ router.post('/signin', async(req, res) => {
         } else if (response.okStatus === 200) {
             await generateToken(res, response.response.user_id)
             res.status(200).json({ message: "User Signed in.", response: response.response })
+        } else {
+            res.status(500).json({ error: "Unknown server error" })
         }
     } catch (error) {
         res.status(500).json({ error: `server error while signing in user: ${error}` })
