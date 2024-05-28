@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: white;
+}
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.header-logo-name {
+    font-family: "genos";
+    font-size: 30px;
+}

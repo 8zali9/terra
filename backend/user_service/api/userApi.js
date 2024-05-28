@@ -34,12 +34,12 @@ router.get('/get.user/:user_id', async (req, res) => {
 // endpoint:    /create.user
 router.post('/create.user', async(req, res) => {
     const { 
-        user_id, first_name, last_name, email, password, phone_number 
+        first_name, last_name, email, password, phone_number 
     } = req.body
 
     try {
         const response = await createUserService(
-            user_id, first_name, last_name, email, password, phone_number
+            first_name, last_name, email, password, phone_number
         )
 
         if (response.errorStatus === 500) {

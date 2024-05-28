@@ -31,7 +31,7 @@ export default function Header() {
       <div className='header-links'>
         <Link href="/" className="header-link">Home <RiArrowDropDownLine /></Link>
         <p className="header-link">About <RiArrowDropDownLine /></p>
-        <p className="header-link">Contacts <RiArrowDropDownLine /></p>
+        <Link href='/contact' className="header-link">Contacts <RiArrowDropDownLine /></Link>
         <Link href='/new-projects' className="header-link">New Projects <RiArrowDropDownLine /></Link>
       </div>
 

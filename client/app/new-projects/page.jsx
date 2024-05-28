@@ -1,72 +1,74 @@
 "use client"
 
-import React from 'react'
+import React, { useContext } from 'react'
 import './new-projects.css'
-import { HiAdjustmentsHorizontal } from "react-icons/hi2";
-import { TbHomeSignal } from "react-icons/tb";
-import { MdApartment } from "react-icons/md";
-import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
-import { LiaChartAreaSolid } from "react-icons/lia";
-import { HiSpeakerphone } from "react-icons/hi";
-import Header from '../components/Header/Header';
-import ToggleContextProvider from '../contextProviders/ToggleContextProvider';
+import Header from '../components/Header/Header'
+import { ToggleContext } from '../contextProviders/ToggleContextProvider'
 
-export default function NewProjects() {
+export default function page() {
+    const { sidebarToggle, searchDivToggle, handleSearchDivToggle } = useContext(ToggleContext)
 
-    return (
-        <>
-            <Header />
-            <div className='new-projects-np-mainpage'>
-                <div className='np-main'>
-                    <div className='np-head-search'>
-                        <p className='np-head'>LET'S FIND A PERFECT PROPERTY FOR YOU</p>
-                        <p className='np-all-over-pk'>Search from 500,000+ properties all over Pakistan</p>
-
-                        <div className='np-search'>
-                            <div className='for-sale-rent'>
-                                <p className='for-sr-sale'>For Sale</p>
-                                <p className='for-sr-rent'>For Rent</p>
-                            </div>
-
-                            <form className='searchform'>
-                                <input
-                                    className="sf-searchbar"
-                                    type="text"
-                                    placeholder='Search Terras & More...'
-                                />
-                                <div className='sf-filter-icon'><HiAdjustmentsHorizontal /></div>
-                                <button className='sf-search-btn'>Search</button>
-                            </form>
-
-                            <div className='filter-opts'>
-                                <div className='filter-opt-div'>
-                                    <TbHomeSignal className='filter-opt-icon' />
-                                    <p>Houses</p>
-                                </div>
-                                <div className='filter-opt-div'>
-                                    <MdApartment className='filter-opt-icon' />
-                                    <p>Apartments</p>
-                                </div>
-                                <div className='filter-opt-div'>
-                                    <HiOutlineBuildingOffice2 className='filter-opt-icon' />
-                                    <p>Offices</p>
-                                </div>
-                                <div className='filter-opt-div'>
-                                    <LiaChartAreaSolid className='filter-opt-icon' />
-                                    <p>Plot</p>
-                                </div>
-                                <div className='filter-opt-div'>
-                                    <HiSpeakerphone className='filter-opt-icon' />
-                                    <p>Commercial</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <img className='np-img' src="./np-img.jpg" />
+  return (
+    <div className='new-projects main-searchpage'>
+        <Header />
+        <div className='search-section'> 
+            {
+              !sidebarToggle &&
+              <div className='sidebar'>
+                <div className='sb-head'>
+                  <p className='filters'>Filters</p>
+                  <p className='Reset-btn'>Reset</p>
                 </div>
+
+                <div className='property-type-filter ptft'>
+                  <p>Property Type</p>
+                  <div className='types'>
+                    <p className='pt-types'>house</p>
+                    <p className='pt-types'>Apartment</p>
+                    <p className='pt-types'>Office</p>
+                    <p className='pt-types'>Commercial</p>
+                    <p className='pt-types'>Plot</p>
+                  </div>
+                </div>
+
+                <div className='location-filter lft'>
+                  <p className='location-head lh'>Location</p>
+                  <select name="location-dropdown">
+                    <option value="g10">G-10 Islamabad</option>
+                  </select>
+                </div>
+                
+                <div className='price-filter pft'>
+                  <p className='price-head ph'>Price Range</p>
+                  <div className='pft-input'>
+                    <div className='min'>
+                      <p>Min</p>
+                      <input type='number' />
+                    </div>
+                    <p>-</p>
+                    <div className='max'>
+                      <p>Max</p>
+                      <input type='number' />
+                    </div>
+                  </div>
+                </div>
+
+                <div className='rooms-filter rft'>
+                  <p className='room-head rh'>Rooms</p>
+                  <div>rooms range</div>
+                </div>
+              </div>
+            }
+
+            <div className='rsp results-searchbar-page'>
+                <div className='searchbar-section'>
+                  <input onClick={handleSearchDivToggle} type="text" placeholder='search area or location...' />
+                  <button>Search</button>
+                </div>
+                <div className='results-section'>results-section'</div>
             </div>
-        </>
-    )
+
+        </div>
+    </div>
+  )
 }

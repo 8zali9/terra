@@ -7,6 +7,7 @@ const {
 } = require('../dal/dataAccessLogic')
 const matchPassword = require('../utils/matchPassword')
 const hashPassword = require('../utils/hashPassword')
+const { v4: uuidv4 } = require('uuid')
 
 const getUserService = async (user_id) => { 
     try {
@@ -24,10 +25,11 @@ const getUserService = async (user_id) => {
 }
 
 const createUserService = async (
-    user_id, first_name, last_name, email, password, phone_number
+    first_name, last_name, email, password, phone_number
 ) => {
     try {
         const hashedPassword = await hashPassword(password)
+        const user_id = uuidv4();
         const response = await createUser(
             user_id, first_name, last_name, email, hashedPassword, phone_number
         )
