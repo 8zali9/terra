@@ -1,5 +1,5 @@
 {
-  "name": "terra-user_service",
+  "name": "terra-user-service",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {

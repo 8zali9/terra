@@ -8,6 +8,8 @@ const {
     signinUserService,
 } = require('../services/userServices')
 const generateToken = require('../utils/generateToken')
+// message queue
+const { amq_init } = require('../../message-queue/amq_init')
 
 router.get('/', (req, res) => {
     res.status(200).json({ api_check: "all ok" })
@@ -47,6 +49,8 @@ router.post('/create.user', async(req, res) => {
         } else if (response.errorStatus === 404) {
             res.status(404).json({ response: response.error })
         } else {
+            const userEmail = response.response
+            amq_init("pub", userEmail, "user-account-created")
             res.status(201).json({ message: "User created.", response: response.response })
         }
     } catch (error) {

@@ -1,5 +1,5 @@
 {
-  "name": "auth_gateway",
+  "name": "auth-gateway",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

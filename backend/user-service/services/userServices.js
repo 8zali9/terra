@@ -40,7 +40,7 @@ const createUserService = async (
             return { error: "Cannot signup" }
         }
 
-        return {message: "User Created.", response: response.response}
+        return {message: "User Created.", response: email }
     } catch (error) {
         return { error: `server/service error while creating user: ${error}` }
     }
