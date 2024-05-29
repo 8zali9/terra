@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import '../components/SignForms/signForm.css'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { apiReq } from '../utils/fetch'
 
 export default function SignForm() {
     const router = useRouter()
@@ -17,18 +18,19 @@ export default function SignForm() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const response = await fetch('http://localhost:8010/terra.user-service/create.user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ first_name, last_name, email, password, phone_number })
-        })
+        const response = await apiReq(
+            8010, 
+            'terra.user-service/create.user', 
+            null, 
+            'POST', 
+            { first_name, last_name, email, password, phone_number }
+        )
 
         if (response.status === 201) {
             const data = await response.json();
-            console.log(data)
             router.push('/signin')
         } else {
-            router.push('/')
+            console.log(response)
         }
     }
 

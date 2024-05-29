@@ -2,26 +2,31 @@
 
 import "./header.css";
 import React, { useContext } from 'react'
-import { IoSearch } from "react-icons/io5";
 import { FaBars } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoPlayBack } from "react-icons/io5";
 import { ToggleContext } from '../../contextProviders/ToggleContextProvider'
 import Link from "next/link";
+import { usePathname  } from 'next/navigation'
 
 export default function Header() {
+  const path = usePathname()
+
   const { sidebarToggle, handleSidebarToggle } = useContext(ToggleContext)
 
   return (
     <div className='header'>
       <div className="header-logo-sidebar">
-        <div
-          onClick={handleSidebarToggle}
-          className={`sidebar-icon ${sidebarToggle ? "sidebar-active" : ""}`}
-        >
-          {sidebarToggle ? <FaBars /> : <IoPlayBack />}
-        </div>
+        {
+          path == '/new-projects' &&
+          <div
+            onClick={handleSidebarToggle}
+            className={`sidebar-icon ${sidebarToggle ? "sidebar-active" : ""}`}
+          >
+            {sidebarToggle ? <FaBars /> : <IoPlayBack />}
+          </div>
+        }
         <div className="header-logo">
           <p className='header-logo-name'>TERRA</p>
           <GoDotFill color="rgba(255, 94, 0, 0.863)" />

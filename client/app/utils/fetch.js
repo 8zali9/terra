@@ -1,32 +1,37 @@
 const prefixUrl = "http://localhost"
 
-const apiReq = async (port, url, userOrPropertyID, method, body) => {
-    const options = {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
-    }
+const options = {
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include'
+}
 
-    if (method !== 'GET') {
+const apiReq = async (port, url, userOrPropertyID, method, body) => {
+    options.method = method
+    if (method !== 'GET' && method !== 'DELETE') {
         options.body = JSON.stringify({ ...body });
     }
 
     try {
-        return await fetch(`${prefixUrl}:${port}/${url}/${userOrPropertyID}`, { options });   
+        if (userOrPropertyID)
+            return await fetch(`${prefixUrl}:${port}/${url}/${userOrPropertyID}`, options);
+        else
+            return await fetch(`${prefixUrl}:${port}/${url}`, options);   
     } catch (error) {
         return error
     }
 }
 
 const apiReqByUserAndProperty = async (port, url, userId, propertyId, method, body) => {
-    const response = await fetch(`${prefixUrl}:${port}/${url}/${userId}/${propertyId}`, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...body }),
-        credentials: 'include'
-    });
+    options.method = method
+    if (method !== 'GET' && method !== 'DELETE') {
+        options.body = JSON.stringify({ ...body });
+    }
 
-    return response
+    try {
+        return await fetch(`${prefixUrl}:${port}/${url}/${userId}/${propertyId}`, options);
+    } catch (error) {
+        return error
+    }
 }
 
 module.exports = { apiReq, apiReqByUserAndProperty }

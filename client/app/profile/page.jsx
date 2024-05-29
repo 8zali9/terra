@@ -43,6 +43,7 @@ export default function page() {
         </div>
 
         <div className='properties-seection'>
+            <h3>Your Properties</h3>
         </div>
     </div>
   )
