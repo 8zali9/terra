@@ -1,0 +1,7 @@
+what -> in -> what
+
+builder -> property
+
+property_type -> property_subtype -> property
+
+province -> city -> location -> property

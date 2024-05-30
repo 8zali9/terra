@@ -1,10 +1,10 @@
-const { db } = require('../conn_db/connect')
-const {dbStatusObject, accessData} = require('./dbStatus')
+const { accessData} = require('./dbStatus')
 require('dotenv').config()
 const util = require('util')
 const {
     getAllPropertiesQuery,
     getPropertyQuery,
+    getUserPropertiesQuery,
     createPropertyQuery,
     updatePropertyQuery,
     deletePropertyQuery
@@ -16,6 +16,10 @@ const getProperty = async (property_id) => {
 
 const getAllProperties = async () => {
     return await accessData(getAllPropertiesQuery)
+}
+
+const getUserProperties = async (user_id) => {
+    return await accessData(getUserPropertiesQuery, [user_id])
 }
 
 const createProperty = async(
@@ -30,17 +34,26 @@ const createProperty = async(
     ])
 }
 
-const updateProperty = async(first_name, last_name, email, password, phone_number, user_id) => {
-    return await accessData(updatePropertyQuery, [first_name, last_name, email, password, phone_number, user_id])
+const updateProperty = async(
+    purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
+    property_id, property_title, date_listed, property_description, property_history, 
+    property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
+) => {
+    return await accessData(updatePropertyQuery, [
+        purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
+        property_id, property_title, date_listed, property_description, property_history, 
+        property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
+    ])
 }
 
-const deleteProperty = async(property_id) => {
-    return await accessData(deletePropertyQuery, [property_id])
+const deleteProperty = async(property_id, user_id) => {
+    return await accessData(deletePropertyQuery, [property_id, user_id])
 }
 
 module.exports = {
     getProperty,
     getAllProperties,
+    getUserProperties,
     createProperty,
     updateProperty,
     deleteProperty

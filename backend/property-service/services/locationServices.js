@@ -1,5 +1,5 @@
 const {
-    getLocationById,
+    getLocationByName,
     getAllLocations,
     createLocation,
     updateLocation,
@@ -7,9 +7,9 @@ const {
 } = require('../dataAccessLogic/locationDal');
 const { v4: uuidv4 } = require('uuid');
 
-const getLocationByIdService = async (location_id) => {
+const getLocationByNameService = async (location_name) => {
     try {
-        const response = await getLocationById(location_id);
+        const response = await getLocationByName(location_name);
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 };
@@ -85,7 +85,7 @@ const deleteLocationService = async (location_id) => {
 };
 
 module.exports = {
-    getLocationByIdService,
+    getLocationByNameService,
     getAllLocationsService,
     createLocationService,
     updateLocationService,

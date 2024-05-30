@@ -1,11 +1,13 @@
 const {
     getProperty,
     getAllProperties,
+    getUserProperties,
     createProperty,
     updateProperty,
     deleteProperty
 } = require('../dataAccessLogic/propertyDal');
 const { v4: uuidv4 } = require('uuid');
+const { checkBuilder, checkPropertySubType, checkLocation } = require('../utils/checkForeignKeyParams');
 
 const getPropertyService = async (property_id) => {
     try {
@@ -37,18 +39,41 @@ const getAllPropertiesService = async () => {
     }
 };
 
+const getUserPropertiesService = async (user_id) => {
+    try {
+        const response = await getUserProperties(user_id);
+
+        if (response.dbStatus === 500) {
+            return { error: "DB error.", errorStatus: 500 };
+        } else if (response.dbStatus === 404) {
+            return { error: "Properties not found", errorStatus: 404 };
+        }
+        return { message: "Property fetched.", response: response.response };
+    } catch (error) {
+        return { error: `Server/service error while getting properties of the user: ${error}` };
+    }
+};
+
 const createPropertyService = async (
     purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-    property_id, property_title, date_listed, property_description, property_history, 
-    property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
+    property_title, date_listed, property_description, property_history, 
+    property_images, longitude, latitude, user_id, builder_name, location_name, property_subtype_id
 ) => {
     try {
+        // checks for foreign key validation/existence
+        const builder = await checkBuilder(builder_name)
+        const builder_id = builder.response.builder_id
+        await checkPropertySubType(property_subtype_id)
+        const locationCheck = await checkLocation(location_name)
+        const location_id = locationCheck.response.location_id
+        
+        const property_id = uuidv4()
         const response = await createProperty(
             purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
             property_id, property_title, date_listed, property_description, property_history, 
             property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
         );
-
+        console.log(response)
         if (response.dbStatus === 500) {
             return { error: "DB error." };
         } else if (response.dbStatus === 404) {
@@ -64,13 +89,20 @@ const createPropertyService = async (
 const updatePropertyService = async (
     purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
     property_id, property_title, date_listed, property_description, property_history, 
-    property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
+    property_images, longitude, latitude, builder_name, location_name, property_subtype_id, user_id
 ) => {
     try {
+        // checks for foreign key validation/existence
+        const builder = await checkBuilder(builder_name)
+        const builder_id = builder.response.builder_id
+        await checkPropertySubType(property_subtype_id)
+        const locationCheck = await checkLocation(location_name)
+        const location_id = locationCheck.response.location_id
+
         const response = await updateProperty(
             purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
             property_id, property_title, date_listed, property_description, property_history, 
-            property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
+            property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
         );
 
         if (response.dbStatus === 500) {
@@ -102,6 +134,7 @@ const deletePropertyService = async (property_id) => {
 module.exports = {
     getPropertyService,
     getAllPropertiesService,
+    getUserPropertiesService,
     createPropertyService,
     updatePropertyService,
     deletePropertyService,

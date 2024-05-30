@@ -1,5 +1,5 @@
 const {
-    getBuilderById,
+    getBuilderByName,
     getAllBuilders,
     createBuilder,
     updateBuilder,
@@ -7,9 +7,9 @@ const {
 } = require('../dataAccessLogic/builderDal');
 const { v4: uuidv4 } = require('uuid');
 
-const getBuilderByIdService = async (builder_id) => {
+const getBuilderByNameService = async (builder_name) => {
     try {
-        const response = await getBuilderById(builder_id);
+        const response = await getBuilderByName(builder_name);
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 };
@@ -45,7 +45,7 @@ const createBuilderService = async (builder_name, builder_website) => {
         if (response.dbStatus === 500) {
             return { error: "DB error." };
         } else if (response.dbStatus === 404) {
-            return { error: "Cannot create builder" };
+            return { error: "Cannot create builder", errorStatus: 500 };
         }
 
         return { message: "Builder created.", response: builder_name };
@@ -69,9 +69,9 @@ const updateBuilderService = async (builder_name, builder_website, builder_id) =
     }
 };
 
-const deleteBuilderService = async (builder_id) => {
+const deleteBuilderService = async (builder_name) => {
     try {
-        const response = await deleteBuilder(builder_id);
+        const response = await deleteBuilder(builder_name);
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 };
@@ -85,7 +85,7 @@ const deleteBuilderService = async (builder_id) => {
 };
 
 module.exports = {
-    getBuilderByIdService,
+    getBuilderByNameService,
     getAllBuildersService,
     createBuilderService,
     updateBuilderService,

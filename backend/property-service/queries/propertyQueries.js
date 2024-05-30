@@ -9,6 +9,12 @@ const getPropertyQuery = `
     where property_id = ?
 `;
 
+const getUserPropertiesQuery = `
+    select * 
+    from Property
+    where user_id = ?
+`
+
 const createPropertyQuery = `
     insert into Property (
         purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
@@ -26,19 +32,26 @@ const updatePropertyQuery = `
         purpose = ?, price = ?, on_installment = ?, installment_rate = ?, bedrooms = ?, 
         bathrooms = ?, area = ?, property_title = ?, date_listed = ?, property_description = ?, 
         property_history = ?, property_images = ?, longitude = ?, latitude = ?, 
-        user_id = ?, builder_id = ?, location_id = ?, property_subtype_id = ?
-    where property_id = ?
+        builder_id = ?, location_id = ?, property_subtype_id = ?
+    where 
+        property_id = ? 
+        and
+        user_id = ?
 `;
 
 
 const deletePropertyQuery = `
         delete from Property
-        where property_id = ?
+        where 
+            property_id = ? 
+            and
+            user_id = ?
 `;
 
 module.exports = {
     getAllPropertiesQuery,
     getPropertyQuery,
+    getUserPropertiesQuery,
     createPropertyQuery,
     updatePropertyQuery,
     deletePropertyQuery

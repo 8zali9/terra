@@ -6,10 +6,10 @@ const createBuilderQuery = `
     )
 `;
 
-const getBuilderByIdQuery = `
+const getBuilderByNameQuery = `
     SELECT *
     FROM Builder
-    WHERE builder_id = ?
+    WHERE builder_name = ?
 `;
 
 const getAllBuildersQuery = `
@@ -20,17 +20,17 @@ const getAllBuildersQuery = `
 const updateBuilderQuery = `
     UPDATE Builder
     SET builder_name = ?, builder_website = ?
-    WHERE builder_id = ?
+    WHERE builder_name = ?
 `;
 
 const deleteBuilderQuery = `
     DELETE FROM Builder
-    WHERE builder_id = ?
+    WHERE builder_name = ?
 `;
 
 module.exports = {
     createBuilderQuery,
-    getBuilderByIdQuery,
+    getBuilderByNameQuery,
     getAllBuildersQuery,
     updateBuilderQuery,
     deleteBuilderQuery

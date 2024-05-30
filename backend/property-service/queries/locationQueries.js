@@ -12,6 +12,12 @@ const getLocationByIdQuery = `
     WHERE location_id = ?
 `;
 
+const getLocationByNameQuery = `
+    SELECT *
+    FROM Location
+    WHERE location_name = ?
+`;
+
 const getAllLocationsQuery = `
     SELECT *
     FROM Location
@@ -31,6 +37,7 @@ const deleteLocationQuery = `
 module.exports = {
     createLocationQuery,
     getLocationByIdQuery,
+    getLocationByNameQuery,
     getAllLocationsQuery,
     updateLocationQuery,
     deleteLocationQuery

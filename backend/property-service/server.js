@@ -5,6 +5,7 @@ require('dotenv').config()
 const cors = require('cors')
 const { connect } = require('./conn_db/connect')
 const propertyApi = require('./api/propertyApi')
+// const locationApi = require('./api/locationApi')
 
 const port = process.env.PORT
 const env = process.env.ENV
@@ -25,6 +26,7 @@ if (cluster.isPrimary) {
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
     app.use('/terra.property-service/', propertyApi)
+    // app.use('/terra.property-service/', locationApi)
 
     connect().then(() => {
         app.listen(port, () => {

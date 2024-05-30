@@ -4,14 +4,14 @@ require('dotenv').config();
 const util = require('util');
 const {
     getAllLocationsQuery,
-    getLocationByIdQuery,
+    getLocationByNameQuery,
     createLocationQuery,
     updateLocationQuery,
     deleteLocationQuery
 } = require('../queries/locationQueries');
 
-const getLocationById = async (location_id) => {
-    return await accessData(getLocationByIdQuery, [location_id]);
+const getLocationByName = async (location_name) => {
+    return await accessData(getLocationByNameQuery, [location_name]);
 };
 
 const getAllLocations = async () => {
@@ -31,7 +31,7 @@ const deleteLocation = async (location_id) => {
 };
 
 module.exports = {
-    getLocationById,
+    getLocationByName,
     getAllLocations,
     createLocation,
     updateLocation,

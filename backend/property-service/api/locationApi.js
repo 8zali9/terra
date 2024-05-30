@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const {
-    getLocationByIdService,
+    getLocationByNameService,
     getAllLocationsService,
     createLocationService,
     updateLocationService,
     deleteLocationService
 } = require('../services/locationServices');
 
-// endpoint:    /get.location/:location_id
-router.get('/get.location/:location_id', async (req, res) => {
-    const location_id = req.params.location_id;
+// endpoint:    /get.location/:location_name
+router.get('/get.location/:location_name', async (req, res) => {
+    const location_name = req.params.location_name;
 
     try {
-        const response = await getLocationByIdService(location_id);
+        const response = await getLocationByNameService(location_name);
         if (response.errorStatus === 500) {
             res.status(500).json({ response: response.error });
         } else if (response.errorStatus === 404) {

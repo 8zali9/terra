@@ -8,12 +8,12 @@ const {
     deleteBuilderService
 } = require('../services/builderServices');
 
-// endpoint:    /get.builder/:builder_id
-router.get('/get.builder/:builder_id', async (req, res) => {
-    const builder_id = req.params.builder_id;
+// endpoint:    /get.builder/:builder_name
+router.get('/get.builder/:builder_name', async (req, res) => {
+    const builder_name = req.params.builder_name;
 
     try {
-        const response = await getBuilderByIdService(builder_id);
+        const response = await getBuilderByIdService(builder_name);
         if (response.errorStatus === 500) {
             res.status(500).json({ response: response.error });
         } else if (response.errorStatus === 404) {
