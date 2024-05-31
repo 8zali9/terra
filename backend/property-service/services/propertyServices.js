@@ -88,8 +88,8 @@ const createPropertyService = async (
 
 const updatePropertyService = async (
     purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-    property_id, property_title, date_listed, property_description, property_history, 
-    property_images, longitude, latitude, builder_name, location_name, property_subtype_id, user_id
+    property_title, date_listed, property_description, property_history, property_images,
+    longitude, latitude, builder_name, location_name, property_subtype_id, property_id, user_id
 ) => {
     try {
         // checks for foreign key validation/existence
@@ -101,8 +101,8 @@ const updatePropertyService = async (
 
         const response = await updateProperty(
             purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-            property_id, property_title, date_listed, property_description, property_history, 
-            property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
+            property_title, date_listed, property_description, property_history, property_images,
+            longitude, latitude, builder_id, location_id, property_subtype_id, property_id, user_id
         );
 
         if (response.dbStatus === 500) {
@@ -116,9 +116,9 @@ const updatePropertyService = async (
     }
 };
 
-const deletePropertyService = async (property_id) => {
+const deletePropertyService = async (property_id, user_id) => {
     try {
-        const response = await deleteProperty(property_id);
+        const response = await deleteProperty(property_id, user_id);
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 };

@@ -1,5 +1,5 @@
 const { db } = require('../conn_db/connect');
-const { dbStatusObject, accessData } = require('./dbStatus');
+const { dbStatusObject, accessData } = require('../utils/dbStatus');
 require('dotenv').config();
 const util = require('util');
 const {

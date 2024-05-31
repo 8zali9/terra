@@ -35,6 +35,7 @@ router.get('/get.property/:property_id', async (req, res) => {
 router.get('/get.allProperties', async (req, res) => {
     try {
         const response = await getAllPropertiesService();
+        
         if (response.errorStatus === 500) {
             res.status(500).json({ error: response.error });
         } else if (response.errorStatus === 404) {
@@ -92,20 +93,21 @@ router.post('/create.property', async (req, res) => {
     }
 });
 
-// endpoint:    /update.property/:property_id
-router.put('/update.property/:property_id', async (req, res) => {
+// endpoint:    /update.property/:user_id/:property_id
+router.put('/update.property/:user_id/:property_id', async (req, res) => {
+    const user_id = req.params.user_id;
     const property_id = req.params.property_id;
     const { 
         purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
         property_title, date_listed, property_description, property_history, 
-        property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
+        property_images, longitude, latitude, builder_name, location_name, property_subtype_id
     } = req.body;
 
     try {
         const response = await updatePropertyService(
             purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-            property_id, property_title, date_listed, property_description, property_history, 
-            property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
+            property_title, date_listed, property_description, property_history, property_images,
+            longitude, latitude, builder_name, location_name, property_subtype_id, property_id, user_id
         );
 
         if (response.errorStatus === 500) {
@@ -120,12 +122,13 @@ router.put('/update.property/:property_id', async (req, res) => {
     }
 });
 
-// endpoint:    /delete.property/:property_id
-router.delete('/delete.property/:property_id', async (req, res) => {
+// endpoint:    /delete.property/:user_id/:property_id
+router.delete('/delete.property/:user_id/:property_id', async (req, res) => {
+    const user_id = req.params.user_id;
     const property_id = req.params.property_id;
 
     try {
-        const response = await deletePropertyService(property_id);
+        const response = await deletePropertyService(property_id, user_id);
         if (response.errorStatus === 500) {
             res.status(500).json({ error: response.error });
         } else if (response.errorStatus === 404) {

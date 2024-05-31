@@ -19,14 +19,10 @@ const checkBuilder = async (builder_name) => {
     } else {
         return builder
     }
-    if (createNewBuilder) {
-        throw new Error("Cannot add new builder for Property")
-    }
 }
 
 const checkPropertySubType = async (propertysubtype_id) => {
     const subtype = await getPropertySubtypeByIdService(propertysubtype_id)
-    console.log(subtype)
     if (subtype.error) {
         throw new Error("Invalid Property Subtype")
     }

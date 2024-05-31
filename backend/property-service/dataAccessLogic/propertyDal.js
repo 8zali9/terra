@@ -1,4 +1,4 @@
-const { accessData} = require('./dbStatus')
+const { dbStatusObject, accessData } = require('../utils/dbStatus');
 require('dotenv').config()
 const util = require('util')
 const {
@@ -36,13 +36,13 @@ const createProperty = async(
 
 const updateProperty = async(
     purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-    property_id, property_title, date_listed, property_description, property_history, 
-    property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
+    property_title, date_listed, property_description, property_history, property_images,
+    longitude, latitude, builder_id, location_id, property_subtype_id, property_id, user_id
 ) => {
     return await accessData(updatePropertyQuery, [
         purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 
-        property_id, property_title, date_listed, property_description, property_history, 
-        property_images, longitude, latitude, builder_id, location_id, property_subtype_id, user_id
+        property_title, date_listed, property_description, property_history, property_images,
+        longitude, latitude, builder_id, location_id, property_subtype_id, property_id, user_id
     ])
 }
 

@@ -6,9 +6,10 @@ const dbStatusObject = {
     dbError: 500
 }
 
-const accessData = async (query, [...queryParams]) => {
+const accessData = async (query, queryParams = []) => {
     try {
-        const dbResponse = await db.promise().query(query, [...queryParams]);
+        const dbResponse = await db.promise().query(query, queryParams);
+
         if (dbResponse[0].length == 0) {
             return { result: "Not Found at access layer", dbStatus: dbStatusObject.notFound };
         }
