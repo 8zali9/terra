@@ -3,6 +3,7 @@ const {
     getUserByEmail,
     createUser,
     updateUser,
+    updateUserWithoutPassword,
     deleteUser
 } = require('../dal/dataAccessLogic')
 const matchPassword = require('../utils/matchPassword')
@@ -50,17 +51,23 @@ const updateUserService = async (
     first_name, last_name, email, password, phone_number, user_id
 ) => {
     try {
-        let hashedPassword;
-        if (password)
-            hashedPassword = await hashPassword(password)
-        else {
-            const previousPass = await getUser(user_id)
-            hashedPassword = previousPass.response.password
+        let response;
+        if (password) {
+            let hashedPassword;
+            if (password)
+                hashedPassword = await hashPassword(password)
+            else {
+                const previousPass = await getUser(user_id)
+                hashedPassword = previousPass.response.password
+            }
+            response = await updateUser(
+                first_name, last_name, email, hashedPassword, phone_number, user_id
+            )
+        } else {
+            response = await updateUserWithoutPassword(
+                first_name, last_name, email, phone_number, user_id
+            )
         }
-
-        const response = await updateUser(
-            first_name, last_name, email, hashedPassword, phone_number, user_id
-        )
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 }

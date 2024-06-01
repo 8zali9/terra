@@ -7,12 +7,13 @@ const {
     getUserByEmailQuery,
     createUserQuery,
     updateUserQuery,
+    updateUserWithoutPasswordQuery,
     deleteUserQuery
 } = require('../queries/userQueries')
 
-const accessData = async (query, [...queryParams]) => {
+const accessData = async (query, queryParams = []) => {
     try {
-        const dbResponse = await db.promise().query(query, [...queryParams]);
+        const dbResponse = await db.promise().query(query, queryParams);
         if (dbResponse[0].length == 0) {
             return { result: "user doesn't exist", dbStatus: dbStatusObject.notFound };
         }
@@ -38,6 +39,10 @@ const updateUser = async(first_name, last_name, email, password, phone_number, u
     return await accessData(updateUserQuery, [first_name, last_name, email, password, phone_number, user_id])
 }
 
+const updateUserWithoutPassword = async (first_name, last_name, email, phone_number, user_id) => {
+    return await accessData(updateUserWithoutPasswordQuery, [first_name, last_name, email, phone_number, user_id])
+}
+
 const deleteUser = async(user_id) => {
     return await accessData(deleteUserQuery, [user_id])
 }
@@ -47,5 +52,6 @@ module.exports = {
     getUserByEmail,
     createUser,
     updateUser,
+    updateUserWithoutPassword,
     deleteUser
 }

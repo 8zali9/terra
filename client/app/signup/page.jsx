@@ -27,7 +27,6 @@ export default function SignForm() {
         )
 
         if (response.status === 201) {
-            const data = await response.json();
             router.push('/signin')
         } else {
             console.log(response)
@@ -36,7 +35,7 @@ export default function SignForm() {
 
     return (
         <div className='sign-form-page'>
-            <img src='./bg.jpg' />
+            <img className='signform-img' src='./bg.jpg' />
             <div className='sign-form-side-styles'>
                 <div className='terra-flipped-abb'>
                     <p className='terra-flipped-abb-text'>T eam</p>
@@ -48,8 +47,9 @@ export default function SignForm() {
             </div>
 
             <form onSubmit={handleSubmit} className='sign-form'>
-                <legend>Sign up for an account</legend>
+                <legend className='signform-legend'>Sign up for an account</legend>
                 <input
+                className='signform-input'
                     type="text"
                     placeholder='Your first name'
                     required
@@ -57,6 +57,7 @@ export default function SignForm() {
                     value={first_name}
                 />
                 <input
+                className='signform-input'
                     type="text"
                     placeholder='Your last name'
                     required
@@ -64,6 +65,7 @@ export default function SignForm() {
                     value={last_name}
                 />
                 <input
+                className='signform-input'
                     type="email"
                     placeholder='Your email'
                     required
@@ -71,6 +73,7 @@ export default function SignForm() {
                     value={email}
                 />
                 <input
+                className='signform-input'
                     type="password"
                     placeholder='Your password'
                     required
@@ -78,13 +81,14 @@ export default function SignForm() {
                     value={password}
                 />
                 <input
+                className='signform-input'
                     type="number"
                     placeholder='Your contact number'
                     required
                     onChange={(e) => setPhone_number(e.target.value)}
                     value={phone_number}
                 />
-                <button type='submit'>Signup</button>
+                <button className='signform-btn' type='submit'>Signup</button>
 
                 <div className='new-to-terra-div'>
                     <p>Already have an account?</p>

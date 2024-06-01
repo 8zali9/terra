@@ -8,14 +8,13 @@
     height: 100vh;
 }
 
-img {
+.signform-img {
     position: absolute;
     margin: 0;
     padding: 0;
     height: 100%;
     width: 80%;
     z-index: -1;
-    background: rgba(255, 127, 0, 0.12);
 }
 
 .sign-form-side-styles {
@@ -64,14 +63,14 @@ img {
     padding-top: 70px;
 }
 
-legend {
+.signform-legend {
     font-size: 25px;
     margin-bottom: 50px;
     color: rgba(255, 68, 0, 0.795);
     text-decoration: underline;
 }
 
-input {
+.signform-input {
     border: 2px solid rgba(228, 178, 149, 0.473);
     border-radius: 4px;
     padding: 10px;
@@ -80,21 +79,21 @@ input {
     margin-bottom: 15px;
 }
 
-input:focus {
+.signform-input:focus {
     outline: none;
     border-color: orangered;
     box-shadow: orangered;
 }
 
-::placeholder {
+.signform-input::placeholder {
     color: rgba(231, 148, 100, 0.473);
 }
 
-button {
+.signform-btn {
     margin-top: 20px;
     background-color: rgba(255, 68, 0, 0.514);
     padding: 8px;
-    width: 74%;
+    width: 90px;
     border: 2px solid transparent;
     border-radius: 4px;
     transition: 0.2s ease;
@@ -103,7 +102,7 @@ button {
     margin-bottom: 20px;
 }
 
-button:hover {
+.signform-btn:hover {
     cursor: pointer;
     border-color: orangered;
 }

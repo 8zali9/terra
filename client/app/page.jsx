@@ -18,13 +18,13 @@ export default function NewProjects() {
     return (
         <>
             <Header />
-            <div className='new-projects-np-mainpage'>
-                <div className='np-main'>
-                    <div className='np-head-search'>
-                        <p className='np-head'>LET'S FIND A PERFECT PROPERTY FOR YOU</p>
-                        <p className='np-all-over-pk'>Search from 500,000+ properties all over Pakistan</p>
+            <div id='mainpage'>
+                <div id='main'>
+                    <div id='main-search-div'>
+                        <p className='main-head'>LET'S FIND A PERFECT PROPERTY FOR YOU</p>
+                        <p className='main-all-over-pk'>Search from 500,000+ properties all over Pakistan</p>
 
-                        <div className='np-search'>
+                        <div className='main-search'>
                             <div className='for-sale-rent'>
                                 <p onClick={handleSaleToggle} className={`for-sr-sale ${saleToggle ? "for-sr-sale-active" : ""}`}>For Sale</p>
                                 <p onClick={handleRentToggle} className={`for-sr-rent ${rentToggle ? "for-sr-rent-active" : ""}`}>For Rent</p>
@@ -66,7 +66,7 @@ export default function NewProjects() {
 
                     </div>
 
-                    <img className='np-img' src="./np-img.jpg" />
+                    <img id='main-pg-img' src="./np-img.jpg" />
                 </div>
             </div>
         </>

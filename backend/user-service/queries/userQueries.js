@@ -1,5 +1,6 @@
 const getUserQuery = `
-    select *
+    select
+        user_id, first_name, last_name, email, phone_number
     from User
     where user_id = ?
 `;
@@ -16,15 +17,25 @@ const createUserQuery = `
 `;
 
 const updateUserQuery = `
-        update User
-        set 
-            first_name = ?,
-            last_name = ?,
-            email = ?,
-            password = ?,
-            phone_number = ?
-        where user_id = ?
+    update User
+    set 
+        first_name = ?,
+        last_name = ?,
+        email = ?,
+        password = ?,
+        phone_number = ?
+    where user_id = ?
 `;
+
+const updateUserWithoutPasswordQuery = `
+    update User
+    set 
+        first_name = ?,
+        last_name = ?,
+        email = ?,
+        phone_number = ?
+    where user_id = ?
+`
 
 const deleteUserQuery = `
         delete from User
@@ -36,5 +47,6 @@ module.exports = {
     getUserByEmailQuery,
     createUserQuery,
     updateUserQuery,
+    updateUserWithoutPasswordQuery,
     deleteUserQuery
 }

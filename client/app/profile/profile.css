@@ -1,0 +1,114 @@
+#profile-main-pg{
+    overflow: hidden;
+}
+
+#user-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    padding-top: 0px;
+    padding-bottom: 50px;
+    background-color: rgba(173, 216, 230, 0.295);
+    margin: 40px;
+    margin-top: 30px;
+    border-radius: 4px;
+    overflow-y: hidden;
+}
+
+#user-section-profile-name{
+    text-align: center;
+}
+
+#user-details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 200px;
+    padding-right: 200px;
+    border-radius: 4px;
+    gap: 100px;
+    overflow: hidden;
+    background-color: white;
+    z-index: 1;
+}
+
+#left-details{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 68, 0, 0.849);
+    color: white;
+    z-index: 1;
+}
+
+#style-center-div{
+    position: absolute;
+    margin-top: 15%;
+    z-index: 0;
+    width: 93%;
+    padding-top: 60px;
+    text-align: center;
+    padding-bottom: 60px;
+    opacity: 0.9;
+    background-color: rgba(255, 255, 255, 0.582);
+}
+
+#right-details{
+    padding: 40px;
+    padding-left: 10px;
+    gap: 8px;
+    z-index: 1;
+
+}
+
+.user-detail-segment{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    height: 55px;
+    padding-bottom: 5px;
+}
+
+.user-details-input{
+    height: 60%;
+    border: 1px solid orangered;
+    outline: none;
+    border-radius: 4px;
+    padding-left: 12px;
+
+}
+
+#user-details-btn{
+    text-align: end;
+    margin-top: 10px;
+}
+
+.user-details-update-btn{
+    width: 90px;
+    height: 30px;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+.disabled-upd-btn{
+    background-color: rgba(255, 68, 0, 0.726);
+}
+
+.active-upd-btn{
+    background-color: orangered;
+}
+
+.user-details-update-btn.active-upd-btn:hover{
+    border-color: orangered;
+    background-color: white;
+    color: orangered;
+    cursor: pointer;
+}
