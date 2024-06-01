@@ -30,7 +30,6 @@ const fetchUser = async (userID) => {
 };
 
 const authenticate = async (req, res, next) => {
-    console.log("auth hit")
     let token;
     token = req.cookies.jwt;
 
@@ -41,15 +40,10 @@ const authenticate = async (req, res, next) => {
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
         const user = await fetchUser(req.params.user_id)
- 
-        console.log("user", user)
-        console.log("token", decodedToken)
-        console.log("req.params.user_id", req.params.user_id)
 
         if (req.params.user_id && req.params.user_id != decodedToken.userID) {
             return res.status(403).json({ error: "Forbidden. You don't have access to this resource." })
         }
-        console.log("Bypassed auth")
         req.user = user
         next()
     } catch (error) {

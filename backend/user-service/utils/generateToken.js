@@ -6,10 +6,12 @@ const generateToken = (res, userID) => {
     });
 
     res.cookie("jwt", token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.ENV !== "dev",
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000,
+        domain: 'localhost',
+        path: '/',
     })
 }
 
