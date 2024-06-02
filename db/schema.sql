@@ -9,7 +9,7 @@ CREATE TABLE User
   password VARCHAR(255) NOT NULL,
   phone_number VARCHAR(255) NOT NULL,
   user_id VARCHAR(255) NOT NULL,
-  user_profile_image BLOB NOT NULL,
+  user_profile_image BLOB NULL,
   PRIMARY KEY (user_id)
 );
 

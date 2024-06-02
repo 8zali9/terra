@@ -1,6 +1,6 @@
 const getUserQuery = `
     select
-        user_id, first_name, last_name, email, phone_number
+        user_id, first_name, last_name, email, phone_number, user_profile_image
     from User
     where user_id = ?
 `;
@@ -23,7 +23,8 @@ const updateUserQuery = `
         last_name = ?,
         email = ?,
         password = ?,
-        phone_number = ?
+        phone_number = ?,
+        user_profile_image = ?
     where user_id = ?
 `;
 
@@ -33,7 +34,8 @@ const updateUserWithoutPasswordQuery = `
         first_name = ?,
         last_name = ?,
         email = ?,
-        phone_number = ?
+        phone_number = ?,
+        user_profile_image = ?
     where user_id = ?
 `
 

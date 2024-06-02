@@ -35,12 +35,12 @@ const createUser = async(user_id, first_name, last_name, email, password, phone_
     return await accessData(createUserQuery, [user_id, first_name, last_name, email, password, phone_number])
 }
 
-const updateUser = async(first_name, last_name, email, password, phone_number, user_id) => {
-    return await accessData(updateUserQuery, [first_name, last_name, email, password, phone_number, user_id])
+const updateUser = async(first_name, last_name, email, password, phone_number, user_profile_image, user_id) => {
+    return await accessData(updateUserQuery, [first_name, last_name, email, password, phone_number, user_profile_image, user_id])
 }
 
-const updateUserWithoutPassword = async (first_name, last_name, email, phone_number, user_id) => {
-    return await accessData(updateUserWithoutPasswordQuery, [first_name, last_name, email, phone_number, user_id])
+const updateUserWithoutPassword = async (first_name, last_name, email, phone_number, user_profile_image, user_id) => {
+    return await accessData(updateUserWithoutPasswordQuery, [first_name, last_name, email, phone_number, user_profile_image, user_id])
 }
 
 const deleteUser = async(user_id) => {

@@ -62,12 +62,12 @@ router.post('/create.user', async(req, res) => {
 router.put('/update.user/:user_id', async(req, res) => {
     const user_id = req.params.user_id
     const {
-        first_name, last_name, email, password, phone_number
+        first_name, last_name, email, password, phone_number, user_profile_image
     } = req.body
 
     try {
         const response = await updateUserService(
-            first_name, last_name, email, password, phone_number, user_id
+            first_name, last_name, email, password, phone_number, user_profile_image, user_id
         )
 
         if (response.errorStatus === 500) {
