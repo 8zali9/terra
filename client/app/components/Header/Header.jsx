@@ -1,7 +1,7 @@
 "use client"
 
 import "./header.css";
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaBars } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -11,6 +11,12 @@ import Link from "next/link";
 
 export default function Header() {
   const { sidebarToggle, handleSidebarToggle } = useContext(ToggleContext)
+  const [user_id, setUser_id] = useState(null)
+
+  useEffect(() => {
+    const uid = localStorage.getItem("user_id")
+    setUser_id(uid)
+  }, [])
 
   return (
     <div id='header'>
@@ -36,13 +42,16 @@ export default function Header() {
         <Link href='/new-projects' className="header-link">New Projects</Link>
       </div>
 
-      <div id="header-signs-property-div">
-        <div className="user-icon signin-header-btn">
-          <Link href="/signin" className="header-signin-btn">Signin</Link>
-        </div>
-        {/* <Link href="/add-property" className="header-add-property-btn">
-          Add property
-        </Link> */}
+      <div className="user-icon signin-header-btn">
+        {
+          user_id ? 
+            <div id="profile-logged-in">
+              <p id="profile-logged-in-name">You</p>
+              <RiArrowDropDownLine />
+            </div>
+          : 
+            <Link href="/signin" className="header-signin-btn">Signin</Link>
+        }
       </div>
     </div>
   )

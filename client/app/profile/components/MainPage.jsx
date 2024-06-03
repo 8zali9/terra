@@ -18,12 +18,15 @@ export default function MainPage() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await apiReq(8010, 'terra.user-service/get.user', "938668ba-add2-4c4b-8fd1-eae4f60c6fed", 'GET', null)
+                const user_id = localStorage.getItem("user_id")
+                if (!user_id)
+                    throw new Error("Cookie settings lost, try signing in again")
+                const res = await apiReq(8010, 'terra.user-service/get.user', user_id, 'GET', null)
                 if (res.status === 200) {
                     const data = await res.json();
                     setUserDetails(data.response)
                 } else{
-                    console.log("error fetching")
+                    console.log("error fetching", res)
                 }
             } catch (error) {
                 console.log(error)

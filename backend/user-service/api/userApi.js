@@ -113,8 +113,7 @@ router.post('/signin', async(req, res) => {
         } else if (response.errorStatus === 401) {
             res.status(401).json({ response: response.error })
         } else if (response.okStatus === 200) {
-            console.log(response.response)
-            await generateToken(res, response.response)
+            await generateToken(res, response.response) // user_id - response.response
             res.status(200).json({ message: "User Signed in.", response: response.response })
         } else {
             res.status(500).json({ error: "Unknown server error" })
