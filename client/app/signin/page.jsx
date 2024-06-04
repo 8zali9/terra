@@ -24,6 +24,8 @@ export default function SignForm() {
             if (res.status === 200) {
                 console.log("signed in", result)
                 localStorage.setItem("user_id", result.response)
+                localStorage.setItem("first_name", result.first_name)
+                localStorage.setItem("last_name", result.last_name)
                 router.push('/profile')
             } else if (res.status === 401) {
                 console.log("Unauthorized, Incorrect Creds")

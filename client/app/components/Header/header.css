@@ -88,9 +88,20 @@
     transition: 0.2s ease;
     height: 30px;
     width: 80px;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#profile-logged-in:hover{
+    background-color: orangered;
+    color: white;
 }
 
 #profile-logged-in-name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     text-align: center;
@@ -111,4 +122,63 @@
     text-decoration: none;
     padding-left: 16px;
     padding-right: 16px;
+}
+
+#profile-drop-down{
+    background-color: white;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.199);
+    border-radius: 8px;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    margin-top: 270px;
+    margin-left: 84%;
+    margin-right: 5%;
+    z-index: 1;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 5px;
+}
+
+#profile-drop-down-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+#drop-down-profile-btn,
+#drop-down-properties-btn,
+#drop-down-logout-btn{
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.781);
+    border: 2px solid transparent;
+}
+
+#drop-down-profile-btn,
+#drop-down-properties-btn{
+    text-decoration: none;
+    background-color: white;
+}
+
+
+#drop-down-profile-btn:hover,
+#drop-down-properties-btn:hover{
+    background-color: orangered;
+    color: white;
+
+}
+
+#drop-down-logout-btn{
+    background-color: orangered;
+}
+
+#drop-down-logout-btn:hover{
+    border-color: orangered;
+    background-color: white;
 }

@@ -15,7 +15,7 @@ export default function page() {
         <div className='property-details'>
             <div id='property-head-img'>
                 <p>Beautiful House near xyz park. Located adjacent to masjid</p>
-                <p>House Image</p>
+                <img id='property-ad-img' src="/imgs/1.jpg" />
             </div>
 
             <div id='property-owner-section'>

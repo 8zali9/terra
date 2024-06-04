@@ -31,7 +31,7 @@
     gap: 100px;
     overflow: hidden;
     background-color: white;
-    z-index: 1;
+    z-index: 0;
 }
 
 #left-details{
@@ -66,7 +66,7 @@
     position: absolute;
     margin-top: 15%;
     z-index: 0;
-    width: 93%;
+    width: 94.5%;
     padding-top: 60px;
     text-align: center;
     padding-bottom: 60px;

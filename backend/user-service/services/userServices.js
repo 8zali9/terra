@@ -110,7 +110,7 @@ const signinUserService = async (userEmail, userPassword) => {
             return { error: "Incorrect Credentials", errorStatus: 401 }
         }
 
-        return { response: user.response.user_id, okStatus: 200 };
+        return { response: user.response.user_id, first_name: user.response.first_name, last_name: user.response.last_name, okStatus: 200 };
     } catch (error) {
         return { error: `server/service error while signing in user: ${error}` }
     }

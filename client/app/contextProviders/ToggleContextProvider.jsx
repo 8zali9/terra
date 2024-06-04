@@ -14,6 +14,8 @@ export default function ToggleContextProvider({ children }) {
   const [numberOfRooms, setNumberOfRooms] = useState(1)
   const [resetSearch, setResetSearch] = useState(false)
 
+  const [profileDropDownToggle, setProfileDropDownToggle] = useState(false)
+
   function handleSaleToggle () {
     setSaleToggle(false)
     setRentToggle(true)
@@ -52,12 +54,16 @@ export default function ToggleContextProvider({ children }) {
     }
   }
 
+  const handleProfileDropDownToggle = () => {
+    setProfileDropDownToggle(!profileDropDownToggle)
+  }
+
   return (
     <ToggleContext.Provider value={{
       saleToggle, rentToggle, sidebarToggle, searchDivToggle, 
-      propertyTypeToggle, numberOfRooms, resetSearch,
+      propertyTypeToggle, numberOfRooms, resetSearch, profileDropDownToggle,
       handleSaleToggle, handleRentToggle, handleSidebarToggle, 
-      handleSearchDivToggle, handlePropertyTypeToggle, handleNumberOfRooms, handleResetSearch
+      handleSearchDivToggle, handlePropertyTypeToggle, handleNumberOfRooms, handleResetSearch, handleProfileDropDownToggle
     }}>
       {children}
     </ToggleContext.Provider>

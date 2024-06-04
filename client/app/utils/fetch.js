@@ -7,15 +7,10 @@ const apiReq = async (port, url, userOrPropertyID, method, body) => {
         credentials: 'include'
     }
 
-    if (method !== 'GET' && method !== 'DELETE') {
-        console.log("The body was attatched")
+    if (method !== 'GET' && method !== 'DELETE')
         options.body = JSON.stringify({ ...body });
-    } else {
-        console.log("!!!!!No body was attatched")
-    }
 
     try {
-        console.log(port, url, userOrPropertyID, method, body)
         if (userOrPropertyID)
             return await fetch(`${prefixUrl}:${port}/${url}/${userOrPropertyID}`, options);
         else

@@ -13,7 +13,7 @@ const accessData = async (query, queryParams = []) => {
         if (dbResponse[0].length == 0) {
             return { result: "Not Found at access layer", dbStatus: dbStatusObject.notFound };
         }
-        return { response: dbResponse[0][0], dbStatus: dbStatusObject.ok };
+        return { response: dbResponse[0], dbStatus: dbStatusObject.ok };
     } catch (err) {
         return { err };
     }

@@ -1,0 +1,93 @@
+#user-properties-pg-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#user-all-properties-div{
+    margin-top: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+#user-all-properties-list{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.property-card{
+    border: 1px solid orangered;
+    border-radius: 4px;
+    width: 380px;
+}
+
+#user-property-img{
+    width: 100%;
+}
+
+.user-property-details-div{
+    padding: 10px;
+}
+
+#user-property-details-head{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#property-update-btn{
+    font-size: 20px;
+    text-decoration: none;
+    color: orangered;
+}
+
+#bed-bath-area-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.bed-bath-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.view-update-btns{
+    text-decoration: none;
+    color: black;
+}
+
+#view-link-div{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.view-btn{
+    background-color: orangered;
+    border: 2px solid white;
+    border-radius: 4px;
+    padding: 8px;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.view-btn:hover{
+    border-color: orangered;
+    background-color: white;
+    color: orangered;
+}
