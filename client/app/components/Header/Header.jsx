@@ -9,8 +9,12 @@ import { IoPlayBack } from "react-icons/io5";
 import { ToggleContext } from '../../contextProviders/ToggleContextProvider'
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
+import { apiReq } from "@/app/utils/fetch";
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
+  const router = useRouter()
+
   const { 
     sidebarToggle, 
     handleSidebarToggle, 
@@ -22,13 +26,34 @@ export default function Header() {
   const [last_name, setL_name] = useState(null)
 
   useEffect(() => {
-    const uid = localStorage.getItem("user_id")
-    const fname = localStorage.getItem("first_name")
-    const lname = localStorage.getItem("last_name")
-    setUser_id(uid)
-    setF_name(fname[0])
-    setL_name(lname[0])
+    try {
+      const uid = localStorage.getItem("user_id")
+      const fname = localStorage.getItem("first_name")
+      const lname = localStorage.getItem("last_name")
+      if (!uid || !fname || !lname)
+        throw new Error("Please Signin")
+      setUser_id(uid)
+      setF_name(fname[0])
+      setL_name(lname[0])
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
+
+  const handleSignout = async () => {
+    const res = await apiReq(8010, 'terra.user-service/signout', null, 'POST', null)
+    localStorage.removeItem("user_id")
+    localStorage.removeItem("first_name")
+    localStorage.removeItem("last_name")
+  }
+
+  const handleSignoutClick = (e) => {
+    e.preventDefault()
+
+    handleSignout()
+    handleProfileDropDownToggle()
+    router.push('/')
+  }
 
   return (
     <div id='header'>
@@ -75,7 +100,7 @@ export default function Header() {
             <Link onClick={handleProfileDropDownToggle} id="drop-down-profile-btn" href='/profile'>My Profile</Link>
             <Link onClick={handleProfileDropDownToggle} id="drop-down-properties-btn" href='/my-properties'>My Properties</Link>
             <hr height='1px' width='90%' color="lightgray" />
-            <div onClick={handleProfileDropDownToggle} id="drop-down-logout-btn">Logout</div>
+            <div onClick={handleSignoutClick} id="drop-down-logout-btn">Logout</div>
           </div>
         </div>
       }

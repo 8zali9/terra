@@ -9,8 +9,11 @@ import { LiaBedSolid } from "react-icons/lia";
 import { LuBath } from "react-icons/lu";
 import { TbResize } from "react-icons/tb";
 import { BiEdit } from "react-icons/bi";
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
+    const router = useRouter()
+
     const [properties, setProperties] = useState(null)
     const [first_name, setf_name] = useState(null)
     const [last_name, setl_name] = useState(null)
@@ -23,6 +26,11 @@ export default function Page() {
         setl_name(lname)
         const fetchProperties = async () => {
             try {
+                if (!user_id || !fname || !lname){
+                    router.push('/signin')
+                    throw new Error("Please Sign in")
+                }
+                    
                 const res = await apiReq(8020, 'terra.property-service/get.property.user', user_id, 'GET', null)
 
                 const result = await res.json()
@@ -59,7 +67,7 @@ export default function Page() {
                                     <div className='user-property-details-div'>
                                         <div id='user-property-details-head'>
                                             <h3>Rs. {property.price}</h3>
-                                            <Link id='property-update-btn' href='/update-property'><BiEdit /></Link>
+                                            <Link id='property-update-btn' href={`/my-properties/${property.property_id}`}><BiEdit /></Link>
                                         </div>
                                         <p>{property.purpose}</p>
                                         <div id='bed-bath-area-div'>

@@ -86,6 +86,7 @@ router.post('/create.property', async (req, res) => {
         } else if (response.errorStatus === 404) {
             res.status(404).json({ error: response.error });
         } else {
+            console.log(response)
             res.status(201).json({ message: "Property created.", response: response.response });
         }
     } catch (error) {
@@ -114,7 +115,7 @@ router.put('/update.property/:user_id/:property_id', async (req, res) => {
             res.status(500).json({ error: response.error });
         } else if (response.errorStatus === 404) {
             res.status(404).json({ error: response.error });
-        } else if (response.okStatus === 200) {
+        } else if (response.okStatus === 200) {            
             res.status(200).json({ message: "Property updated.", response: response.response });
         }
     } catch (error) {

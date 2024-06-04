@@ -1,14 +1,11 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './add-property.css'
-import { apiReq } from '../utils/fetch'
-import Header from '../components/Header/Header'
-import { useRouter } from 'next/navigation'
+import { apiReq, apiReqByUserAndProperty } from '../../utils/fetch'
+import Header from '../../components/Header/Header'
 
-export default function AddUpdatePropertyForm() {
-    const router = useRouter()
-
+export default function AddUpdatePropertyForm({ params }) {
     const [purpose, setPurpose] = useState("")
     const [price, setPrice] = useState(0)
     const [on_installment, setOn_installment] = useState()
@@ -17,33 +14,102 @@ export default function AddUpdatePropertyForm() {
     const [bathrooms, setBathrooms] = useState("")
     const [area, setArea] = useState("")
     const [property_title, setProperty_title] = useState("")
-    const [date_listed, setDate_listed] = useState(null)
+    const [date_listed, setDate_listed] = useState("")
     const [property_description, setProperty_description] = useState("")
     const [property_history, setproperty_history] = useState(null)
     const [longitude, setLongitude] = useState(null)
     const [latitude, setLatitude] = useState(null)
-    const [user_id, setUser_id] = useState(null)
+    const [user_id, setUser_id] = useState("")
     const [builder_name, setBuilder_name] = useState("")
     const [location_name, setLocation_name] = useState("")
     const [property_subtype_id, setProperty_subtype_id] = useState(1)
 
+    const [userPropertyDetails, setUserPropertyDetails] = useState(null)
+
+    const [isDisabled, setIsDisabled] = useState(false)
+
+    useEffect(() => {
+        const fetchUserPropertyDetails = async () => {
+            try {
+                const propertyToUpdate = params.updateProperty
+                const res = await apiReq(8020, 'terra.property-service/get.property', propertyToUpdate, 'GET', null)
+                const result = await res.json()
+                setUserPropertyDetails(result.response[0])
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        fetchUserPropertyDetails()
+    }, [])
+
+    useEffect(() => {
+        if (userPropertyDetails) {
+            setPurpose(userPropertyDetails.purpose)
+            setPrice(userPropertyDetails.price)
+            setOn_installment(userPropertyDetails.on_installment)
+            setInstallment_rate(userPropertyDetails.installment_rate)
+            setBedrooms(userPropertyDetails.bedrooms)
+            setBathrooms(userPropertyDetails.bathrooms)
+            setArea(userPropertyDetails.area)
+            setProperty_title(userPropertyDetails.property_title)
+            setDate_listed(userPropertyDetails.date_listed)
+            setProperty_description(userPropertyDetails.property_description)
+            setproperty_history(userPropertyDetails.property_history)
+            setLongitude(userPropertyDetails.longitude)
+            setLatitude(userPropertyDetails.latitude)
+            setBuilder_name(userPropertyDetails.builder_name)
+            setLocation_name(userPropertyDetails.location_name)
+            setProperty_subtype_id(userPropertyDetails.property_subtype_id)
+        }
+    }, [
+        userPropertyDetails
+    ])
+
+    useEffect(() => {
+        if (userPropertyDetails) {
+            setIsDisabled(
+                purpose === userPropertyDetails.purpose &&
+                price === userPropertyDetails.price &&
+                on_installment === userPropertyDetails.on_installment &&
+                installment_rate === userPropertyDetails.installment_rate &&
+                bedrooms === userPropertyDetails.bedrooms &&
+                bathrooms === userPropertyDetails.bathrooms &&
+                area === userPropertyDetails.area &&
+                property_title === userPropertyDetails.property_title &&
+                date_listed === userPropertyDetails.date_listed &&
+                property_description === userPropertyDetails.property_description &&
+                property_history === userPropertyDetails.property_history &&
+                longitude === userPropertyDetails.longitude &&
+                latitude === userPropertyDetails.latitude &&
+                builder_name === userPropertyDetails.builder_name &&
+                location_name === userPropertyDetails.location_name &&
+                property_subtype_id === userPropertyDetails.property_subtype_id
+            )
+        }
+    }, [
+        purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, property_title, date_listed, property_description, property_history, longitude, latitude, builder_name, location_name, property_subtype_id, userPropertyDetails
+    ])
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const currDate = new Date().toISOString().slice(0, 10)
-        setDate_listed()
-        const uid = localStorage.getItem("user_id")
-
         try {
+            const propertyToUpdate = params.updateProperty
+            const uid = localStorage.getItem("user_id")
             if (!uid) {
                 throw new Error("Signin please")
-            }
+            } 
             setUser_id(uid)
-            const res = await apiReq(
-                8020, 
-                'terra.property-service/create.property',
-                null,
-                'POST',
+
+            console.log(user_id)
+            const res = await apiReqByUserAndProperty(
+                8020,
+                'terra.property-service/update.property',
+                user_id,
+                propertyToUpdate,
+                'PUT',
                 {
                     purpose,
                     price,
@@ -53,12 +119,12 @@ export default function AddUpdatePropertyForm() {
                     bathrooms,
                     area,
                     property_title,
-                    date_listed: currDate,
+                    date_listed,
                     property_description,
                     property_history,
                     longitude,
                     latitude,
-                    user_id: uid,
+                    user_id,
                     builder_name,
                     location_name,
                     property_subtype_id
@@ -67,9 +133,8 @@ export default function AddUpdatePropertyForm() {
 
             const result = await res.json()
 
-            if (res.status === 201) {
-                console.log("result", user_id)
-                // router.push('/my-properties')
+            if (res.status === 200) {
+                console.log(result)
             } else {
                 console.log("error", result)
             }
@@ -82,7 +147,7 @@ export default function AddUpdatePropertyForm() {
   return (
     <div id='add-property-main-pg'>
         <Header />
-        <h3 id='add-property-main-head'><u>List an ad for sale</u></h3>
+        <h3 id='add-property-main-head'>List an ad for sale</h3>
         <form id='add-property-form' onSubmit={handleSubmit}>
             <div id='add-property-form-main-div'>
 
@@ -155,23 +220,7 @@ export default function AddUpdatePropertyForm() {
                         <input type="number" id="property-subtype-id" value={property_subtype_id} onChange={(e) => setProperty_subtype_id(e.target.value)}/>
                     </div>
                 </div>
-
-                {/* <div className='add-property-form-inner-divs'>
-                    <label htmlFor="property-history">Property history</label>
-                    <input type="text" id="property-history" value={property_history} onChange={(e) => setproperty_history(e.target.value)}/>
-                </div>
-
-                <div className='add-property-form-inner-divs'>
-                    <label htmlFor="longitude">Longitude</label>
-                    <input type="number" id="longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)}/>
-                </div>
-
-                <div className='add-property-form-inner-divs'>
-                    <label htmlFor="latitude">Latitude</label>
-                    <input type="number" id="latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}/>
-                </div> */}
-
-                <button id='add-property-btn' type='submit'>Add</button>
+                <button disabled={isDisabled} id='add-property-btn' type='submit'>Update</button>
             </div>
         </form>
     </div>

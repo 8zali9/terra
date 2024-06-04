@@ -19,8 +19,11 @@ export default function MainPage() {
         const fetchUser = async () => {
             try {
                 const user_id = localStorage.getItem("user_id")
-                if (!user_id)
+                if (!user_id){
+                    router.push("/signin")
                     throw new Error("Cookie settings lost, try signing in again")
+                }
+                    
                 const res = await apiReq(8010, 'terra.user-service/get.user', user_id, 'GET', null)
                 if (res.status === 200) {
                     const data = await res.json();
