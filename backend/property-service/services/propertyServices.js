@@ -4,7 +4,8 @@ const {
     getUserProperties,
     createProperty,
     updateProperty,
-    deleteProperty
+    deleteProperty,
+    searchPropertyByFilter
 } = require('../dataAccessLogic/propertyDal');
 const { v4: uuidv4 } = require('uuid');
 const { checkBuilder, checkPropertySubType, checkLocation } = require('../utils/checkForeignKeyParams');
@@ -131,6 +132,20 @@ const deletePropertyService = async (property_id, user_id) => {
     }
 };
 
+const searchPropertyByFilterService = async (property_subtype_id, location_name, minPrice, maxPrice, bedrooms) => {
+    try {
+        const response = await searchPropertyByFilter(property_subtype_id, location_name, minPrice, maxPrice, bedrooms)
+        if (response.dbStatus === 500) {
+            return { error: "DB error.", errorStatus: 500 };
+        } else if (response.dbStatus === 404) {
+            return { error: "Properties not found", errorStatus: 404 };
+        }
+        return { message: "Properties fetched.", response: response.response };
+    } catch (error) {
+        return { error: `Server/service error while fetching properties: ${error}` };
+    }
+}
+
 module.exports = {
     getPropertyService,
     getAllPropertiesService,
@@ -138,4 +153,5 @@ module.exports = {
     createPropertyService,
     updatePropertyService,
     deletePropertyService,
+    searchPropertyByFilterService
 };

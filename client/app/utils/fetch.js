@@ -14,7 +14,7 @@ const apiReq = async (port, url, userOrPropertyID, method, body) => {
         if (userOrPropertyID)
             return await fetch(`${prefixUrl}:${port}/${url}/${userOrPropertyID}`, options);
         else
-            return await fetch(`${prefixUrl}:${port}/${url}`, options);   
+            return await fetch(`${prefixUrl}:${port}/${url}`, options);
     } catch (error) {
         return error
     }

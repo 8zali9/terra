@@ -7,7 +7,8 @@ const {
     getUserPropertiesQuery,
     createPropertyQuery,
     updatePropertyQuery,
-    deletePropertyQuery
+    deletePropertyQuery,
+    searchPropertyByFilterQuery
 } = require('../queries/propertyQueries')
 
 const getProperty = async (property_id) => {
@@ -50,11 +51,16 @@ const deleteProperty = async(property_id, user_id) => {
     return await accessData(deletePropertyQuery, [property_id, user_id])
 }
 
+const searchPropertyByFilter = async(property_subtype_id, location_name, minPrice, maxPrice, bedrooms) => {
+    return await accessData(searchPropertyByFilterQuery, [property_subtype_id, location_name, minPrice, maxPrice, bedrooms])
+}
+
 module.exports = {
     getProperty,
     getAllProperties,
     getUserProperties,
     createProperty,
     updateProperty,
-    deleteProperty
+    deleteProperty,
+    searchPropertyByFilter
 }

@@ -10,7 +10,8 @@ export default function ToggleContextProvider({ children }) {
   const [rentToggle, setRentToggle] = useState(true)
   const [sidebarToggle, setSidebarToggle] = useState(true)
   const [searchDivToggle, setSearchDivToggle] = useState(true)
-  const [propertyTypeToggle, setPropertyTypeToggle] = useState("house")
+  const [propertySubtypeToggle, setPropertySubtypeToggle] = useState("house")
+  const [propertyTypeToggle, setPropertyTypeToggle] = useState("home")
   const [numberOfRooms, setNumberOfRooms] = useState(1)
   const [resetSearch, setResetSearch] = useState(false)
 
@@ -34,6 +35,10 @@ export default function ToggleContextProvider({ children }) {
     setSearchDivToggle(!searchDivToggle)
   }
 
+  const handlePropertySubtypeToggle = (type) => {
+    setPropertySubtypeToggle(type)
+  }
+
   const handlePropertyTypeToggle = (type) => {
     setPropertyTypeToggle(type)
   }
@@ -49,7 +54,8 @@ export default function ToggleContextProvider({ children }) {
   const handleResetSearch = () => {
     setResetSearch(!resetSearch)
     if (!resetSearch) {
-      setPropertyTypeToggle("house")
+      setPropertyTypeToggle("home")
+      setPropertySubtypeToggle("house")
       setNumberOfRooms(1)
     }
   }
@@ -60,10 +66,10 @@ export default function ToggleContextProvider({ children }) {
 
   return (
     <ToggleContext.Provider value={{
-      saleToggle, rentToggle, sidebarToggle, searchDivToggle, 
-      propertyTypeToggle, numberOfRooms, resetSearch, profileDropDownToggle,
-      handleSaleToggle, handleRentToggle, handleSidebarToggle, 
-      handleSearchDivToggle, handlePropertyTypeToggle, handleNumberOfRooms, handleResetSearch, handleProfileDropDownToggle
+      saleToggle, rentToggle, sidebarToggle, searchDivToggle, propertyTypeToggle,
+      propertySubtypeToggle, numberOfRooms, resetSearch, profileDropDownToggle,
+      handleSaleToggle, handleRentToggle, handleSidebarToggle, handlePropertyTypeToggle,
+      handleSearchDivToggle, handlePropertySubtypeToggle, handleNumberOfRooms, handleResetSearch, handleProfileDropDownToggle
     }}>
       {children}
     </ToggleContext.Provider>

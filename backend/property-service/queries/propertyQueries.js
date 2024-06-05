@@ -48,11 +48,23 @@ const deletePropertyQuery = `
             user_id = ?
 `;
 
+const searchPropertyByFilterQuery = `
+    select * from Property p
+    where p.property_subtype_id = ? or
+    exists (
+        select * from location
+        where location_name = ?
+    ) or
+    p.price between ? and ? or
+    p.bedrooms = ?
+`;
+
 module.exports = {
     getAllPropertiesQuery,
     getPropertyQuery,
     getUserPropertiesQuery,
     createPropertyQuery,
     updatePropertyQuery,
-    deletePropertyQuery
+    deletePropertyQuery,
+    searchPropertyByFilterQuery
 }

@@ -6,7 +6,8 @@ const {
     getUserPropertiesService,
     createPropertyService,
     updatePropertyService,
-    deletePropertyService
+    deletePropertyService,
+    searchPropertyByFilterService
 } = require('../services/propertyServices');
 
 router.get('/', (req, res) => {
@@ -139,6 +140,30 @@ router.delete('/delete.property/:user_id/:property_id', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: `Server error while deleting property: ${error}` });
+    }
+});
+
+// endpoint:    /get.searchFilterProperties
+router.post('/get.searchFilterProperties', async (req, res) => {
+    const {
+        property_subtype_id, location_name, minPrice, maxPrice, bedrooms
+    } = req.body
+
+    try {
+        const response = await searchPropertyByFilterService(
+            property_subtype_id, location_name, minPrice, maxPrice, bedrooms
+        );
+        
+        if (response.errorStatus === 500) {
+            res.status(500).json({ error: response.error });
+        } else if (response.errorStatus === 404) {
+            res.status(404).json({ error: response.error });
+        } else {
+            res.status(200).json({ message: "Properties fetched.", response: response.response });
+        }
+
+    } catch (error) {
+        res.status(500).json({ error: `Server error while getting properties: ${error}` });
     }
 });
 
