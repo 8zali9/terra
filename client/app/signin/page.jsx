@@ -5,6 +5,7 @@ import '../components/SignForms/signForm.css'
 import Link from 'next/link'
 import { apiReq } from '../utils/fetch'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function SignForm() {
     const router = useRouter()
@@ -16,24 +17,23 @@ export default function SignForm() {
         e.preventDefault()
 
         try {
-            const res = await apiReq(8010, 'terra.user-service/signin', null, 'POST', { userEmail, userPassword })
+            const res = await apiReq(8000, 'signin', null, 'POST', { userEmail, userPassword })
 
             const result = await res.json()
-            console.log("before signed in", result.response)
 
-            if (res.status === 200) {
-                console.log("signed in", result)
-                localStorage.setItem("user_id", result.response)
-                localStorage.setItem("first_name", result.first_name)
-                localStorage.setItem("last_name", result.last_name)
+            if (await(res.status) === 200) {
+                localStorage.setItem("user_id", result.user[0].user_id)
+                localStorage.setItem("first_name", result.user[0].first_name)
+                localStorage.setItem("last_name", result.user[0].last_name)
+                toast.success("Signed in")
                 router.push('/profile')
             } else if (res.status === 401) {
-                console.log("Unauthorized, Incorrect Creds")
+                toast.error("Unauthorized, Incorrect Creds")
             } else {
-                console.log("Server error", result)
+                toast.error("Server error")
             }
         } catch (error) {
-            console.log("error", res, error)
+            toast.error("Error signing you in. Try again")
         }
 
     }

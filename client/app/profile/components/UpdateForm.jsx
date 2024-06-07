@@ -3,6 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { apiReq } from '../../utils/fetch'
 import { ProfileContext } from '../context/ContextProvider'
+import { toast } from 'react-toastify'
 
 export default function UpdateForm() {
     const [imgToDisplay, setImgToDisplay] = useState('')
@@ -40,40 +41,34 @@ export default function UpdateForm() {
             }
             
         } catch (error) {
-            console.log(error)
+            toast.error(error)
         }
     };
 
     const handleUserUpdate = async (e) => {
+        const user_id = localStorage.getItem("user_id")
         e.preventDefault()
 
         try {
             const res = await apiReq(
                 8010,
                 'terra.user-service/update.user',
-                "938668ba-add2-4c4b-8fd1-eae4f60c6fed", 
+                user_id, 
                 'PUT', 
                 { first_name, last_name, email, password, phone_number, user_profile_image }
             )
-            if (res.status === 200) {
-                const response = await fetch(user_profile_image);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch image');
-                }
-
-                // const blob = await response.blob();
-
-                // const reader = new FileReader();
-                // reader.onloadend = () => {
-                //     setImgToDisplay(reader.result);
-                // };
-                // reader.readAsDataURL(blob);
+            console.log(await(res.status))
+            if (await(res.status) === 200) {
+                // const response = await fetch(user_profile_image);
+                // if (!response.ok) {
+                //     throw new Error('Failed to fetch image');
+                // }
                 location.reload()
             } else {
-                console.log("error", res)
+                toast.error("Error updating your details")
             }
         } catch (error) {
-            console.log("Cannot update user", error)
+            toast.error("Cannot update user")
         }
     }
 

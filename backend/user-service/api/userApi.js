@@ -5,9 +5,7 @@ const {
     createUserService,
     updateUserService,
     deleteUserService,
-    signinUserService,
 } = require('../services/userServices')
-const generateToken = require('../utils/generateToken')
 // message queue
 const { amq_init } = require('../../message-queue/amq_init')
 
@@ -75,7 +73,7 @@ router.put('/update.user/:user_id', async(req, res) => {
         } else if (response.errorStatus === 404) {
             res.status(404).json({ response: response.error })
         } else if (response.okStatus === 200) {
-            res.status(200).json({ message: "User updated.", response: response.response })
+            res.status(200).json({ message: "User updated." })
         }
     } catch (error) {
         res.status(500).json({ error: `server error while updating user: ${error}` })
@@ -97,43 +95,6 @@ router.delete('/delete.user/:user_id', async(req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: `server error while deleted user: ${error}` })
-    }
-})
-
-// endpoint:    /signin
-router.post('/signin', async(req, res) => {
-    const { userEmail, userPassword } = req.body
-
-    try {
-        const response = await signinUserService(userEmail, userPassword);
-        if (response.errorStatus === 500) {
-            res.status(500).json({ response: response.error })
-        } else if (response.errorStatus === 404) {
-            res.status(404).json({ response: response.error })
-        } else if (response.errorStatus === 401) {
-            res.status(401).json({ response: response.error })
-        } else if (response.okStatus === 200) {
-            await generateToken(res, response.response) // user_id - response.response
-            res.status(200).json({ message: "User Signed in.", response: response.response, first_name: response.first_name, last_name: response.last_name })
-        } else {
-            res.status(500).json({ error: "Unknown server error" })
-        }
-    } catch (error) {
-        res.status(500).json({ error: `server error while signing in user: ${error}` })
-    }
-})
-
-// endpoint:    /signout
-router.post('/signout', async (req, res) => {
-    try {
-        res.cookie("jwt", "", {
-            httpOnly: true,
-            expires: new Date(0),
-        })
-    
-        res.status(204).json({ message: "User Signed out" })
-    } catch (error) {
-        res.status(500).json({ error: `server error while signing out user: ${error}` })
     }
 })
 

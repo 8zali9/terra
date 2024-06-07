@@ -316,3 +316,48 @@ select{
     width: 100%;
     height: 100%;
 }
+
+#property-ad-bed-bath-area-div-right{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+}
+
+.property-ad-property-bed-bath-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.property-ad-bed-bath-area-icon{
+    font-size: 25px;
+    color: #444;
+}
+
+#property-view-btn-div{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    width: 100%;
+}
+
+#property-view-btn{
+    border-radius: 4px;
+    background-color: orangered;
+    color: white;
+    padding: 6px;
+    padding-right: 12px;
+    padding-left: 12px;
+    text-decoration: none;
+    border: 2px solid orangered;
+    transition: 0.3s ease;
+}
+
+#property-view-btn:hover{
+    background-color: white;
+    color: orangered;
+}

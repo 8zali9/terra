@@ -11,6 +11,11 @@ import { BsShopWindow } from "react-icons/bs";
 import { HiSpeakerphone } from "react-icons/hi";
 import { BsHousesFill } from "react-icons/bs";
 import { apiReq } from '../utils/fetch'
+import { toast } from 'react-toastify'
+import Link from 'next/link'
+import { LiaBedSolid } from "react-icons/lia";
+import { LuBath } from "react-icons/lu";
+import { TbResize } from "react-icons/tb";
 
 export default function page() {
   const [property_subtype_id, setProperty_subtype_id] = useState(1)
@@ -40,15 +45,15 @@ export default function page() {
   useEffect(() => {
     const fetchAllLocations = async () => {
       try {
-        const res = await apiReq(8020, 'terra.property-service/get.allLocations', null, 'GET', null)
+        const res = await apiReq(8000, 'terra.property-service/get.allLocations', null, 'GET', null)
 
         const result = await res.json()
         if (!result) {
-          throw new Error("Error fetching locations")
+          toast.error("Cannot fetch locations")
         }
       setFetchedLocations(result.response)
       } catch (error) {
-        console.log(error)
+        toast.error("Cannot fetch locations")
       }
     }
 
@@ -63,7 +68,7 @@ export default function page() {
     try {
       await (property_subtype_id)
       const res = await apiReq(
-        8020,
+        8000,
         url,
         null,
         'POST',
@@ -73,10 +78,8 @@ export default function page() {
 
       const result = await res.json()
       setSearchResults(result.response)
-      console.log(searchResults)
-
     } catch (error) {
-      console.log(error)
+      toast.error("Error searching properties")
     }
   }
 
@@ -200,7 +203,24 @@ export default function page() {
                       <div className="card-details">
                         <h3>PKR {property.price}</h3>
                         <p>{property.purpose}</p>
-                        <h4>Bedrooms: {property.bedrooms}</h4>
+                        <p>{property.property_description}</p>
+                        <div id='property-ad-bed-bath-area-div-right'>
+                            <div className='property-ad-property-bed-bath-area'>
+                                <LiaBedSolid className='property-ad-bed-bath-area-icon' />
+                                <p>{property.bedrooms}</p>
+                            </div>
+                            <div className='property-ad-property-bed-bath-area'>
+                                <LuBath className='property-ad-bed-bath-area-icon' />
+                                <p>{property.bathrooms}</p>
+                            </div>
+                            <div className='property-ad-property-bed-bath-area'>
+                                <TbResize className='property-ad-bed-bath-area-icon' />
+                                <p id='area-p-tag'>{property.area}sqft.yd</p>
+                            </div>
+                            <div id='property-view-btn-div'>
+                              <Link id='property-view-btn' href={`/new-projects/${property.property_id}`}>View</Link>
+                            </div>
+                        </div>
                       </div>
                     </div>
                   ))}

@@ -6,6 +6,8 @@ export const ToggleContext = createContext()
 
 export default function ToggleContextProvider({ children }) {
 
+  const [headerLinkToggle, setHeaderLinkToggle] = useState("home")
+
   const [saleToggle, setSaleToggle] = useState(false)
   const [rentToggle, setRentToggle] = useState(true)
   const [sidebarToggle, setSidebarToggle] = useState(true)
@@ -16,6 +18,10 @@ export default function ToggleContextProvider({ children }) {
   const [resetSearch, setResetSearch] = useState(false)
 
   const [profileDropDownToggle, setProfileDropDownToggle] = useState(false)
+
+  const handleHeaderLinkToggle = (headerLink) => {
+    setHeaderLinkToggle(headerLink)
+  }
 
   function handleSaleToggle () {
     setSaleToggle(false)
@@ -67,9 +73,9 @@ export default function ToggleContextProvider({ children }) {
   return (
     <ToggleContext.Provider value={{
       saleToggle, rentToggle, sidebarToggle, searchDivToggle, propertyTypeToggle,
-      propertySubtypeToggle, numberOfRooms, resetSearch, profileDropDownToggle,
+      propertySubtypeToggle, numberOfRooms, resetSearch, profileDropDownToggle, headerLinkToggle,
       handleSaleToggle, handleRentToggle, handleSidebarToggle, handlePropertyTypeToggle,
-      handleSearchDivToggle, handlePropertySubtypeToggle, handleNumberOfRooms, handleResetSearch, handleProfileDropDownToggle
+      handleSearchDivToggle, handlePropertySubtypeToggle, handleNumberOfRooms, handleResetSearch, handleProfileDropDownToggle, handleHeaderLinkToggle
     }}>
       {children}
     </ToggleContext.Provider>

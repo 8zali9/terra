@@ -27,10 +27,6 @@ const getUser = async (user_id) => {
     return await accessData(getUserQuery, [user_id])
 }
 
-const getUserByEmail = async (userEmail) => {
-    return await accessData(getUserByEmailQuery, [userEmail])
-}
-
 const createUser = async(user_id, first_name, last_name, email, password, phone_number) => {
     return await accessData(createUserQuery, [user_id, first_name, last_name, email, password, phone_number])
 }
@@ -49,7 +45,6 @@ const deleteUser = async(user_id) => {
 
 module.exports = {
     getUser,
-    getUserByEmail,
     createUser,
     updateUser,
     updateUserWithoutPassword,

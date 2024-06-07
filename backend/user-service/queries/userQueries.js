@@ -5,12 +5,6 @@ const getUserQuery = `
     where user_id = ?
 `;
 
-const getUserByEmailQuery = `
-    select *
-    from User
-    where email = ?
-`;
-
 const createUserQuery = `
     insert into User (user_id, first_name, last_name, email, password, phone_number) 
     values (?, ?, ?, ?, ?, ?);
@@ -46,7 +40,6 @@ const deleteUserQuery = `
 
 module.exports = {
     getUserQuery,
-    getUserByEmailQuery,
     createUserQuery,
     updateUserQuery,
     updateUserWithoutPasswordQuery,

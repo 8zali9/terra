@@ -50,9 +50,7 @@ const createUserService = async (
 const updateUserService = async (
     first_name, last_name, email, password, phone_number, user_profile_image, user_id
 ) => {
-    try {
-        console.log(first_name, last_name, email, password, phone_number, user_profile_image, user_id)
-        
+    try {        
         let response;
         if (password) {
             let hashedPassword;
@@ -65,7 +63,6 @@ const updateUserService = async (
             response = await updateUser(
                 first_name, last_name, email, hashedPassword, phone_number, user_profile_image, user_id
             )
-            console.log(response)
         } else {
             response = await updateUserWithoutPassword(
                 first_name, last_name, email, phone_number, user_profile_image, user_id
@@ -98,28 +95,9 @@ const deleteUserService = async (user_id) => {
     }
 }
 
-const signinUserService = async (userEmail, userPassword) => {
-    try {
-        const user = await getUserByEmail(userEmail);
-        if (!user) {
-            return { error: "user not found", errorStatus: 404 }
-        }
-
-        const passMatchCheck = await matchPassword(userPassword, user.response.password)
-        if (!passMatchCheck) {
-            return { error: "Incorrect Credentials", errorStatus: 401 }
-        }
-
-        return { response: user.response.user_id, first_name: user.response.first_name, last_name: user.response.last_name, okStatus: 200 };
-    } catch (error) {
-        return { error: `server/service error while signing in user: ${error}` }
-    }
-}
-
 module.exports = {
     getUserService, 
     createUserService,
     updateUserService,
     deleteUserService,
-    signinUserService,
 }

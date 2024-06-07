@@ -5,6 +5,7 @@ import './add-property.css'
 import { apiReq } from '../utils/fetch'
 import Header from '../components/Header/Header'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function AddUpdatePropertyForm() {
     const router = useRouter()
@@ -40,7 +41,7 @@ export default function AddUpdatePropertyForm() {
             }
             setUser_id(uid)
             const res = await apiReq(
-                8020, 
+                8000,
                 'terra.property-service/create.property',
                 null,
                 'POST',
@@ -68,13 +69,12 @@ export default function AddUpdatePropertyForm() {
             const result = await res.json()
 
             if (res.status === 201) {
-                console.log("result", user_id)
-                // router.push('/my-properties')
+                toast.success("Ad posted")
             } else {
-                console.log("error", result)
+                toast.error("Something went wrong")
             }
         } catch (error) {
-            console.log(error)
+            toast.error(error)
         }
 
     }

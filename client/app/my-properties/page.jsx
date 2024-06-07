@@ -10,6 +10,7 @@ import { LuBath } from "react-icons/lu";
 import { TbResize } from "react-icons/tb";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function Page() {
     const router = useRouter()
@@ -31,18 +32,17 @@ export default function Page() {
                     throw new Error("Please Sign in")
                 }
                     
-                const res = await apiReq(8020, 'terra.property-service/get.property.user', user_id, 'GET', null)
+                const res = await apiReq(8000, 'terra.property-service/get.property.user', user_id, 'GET', null)
 
                 const result = await res.json()
 
                 if (res.status === 200) {
                     setProperties(result.response)
-                    console.log(result.response)
-                } else {
-                    console.log("Error fetching properties")
+                } else if(res.status === 404) {
+                    return
                 }
             } catch (error) {
-                console.log(error)
+                toast.error(error)
             }
         }
 
@@ -55,6 +55,7 @@ export default function Page() {
 
             <div id='user-properties-pg-header'>
                 <h2> Ads posted by {first_name}</h2>
+                <Link id='link-to-add-property' href='/add-property'>Add property</Link>
             </div>
 
             <div id='user-all-properties-div'>

@@ -11,14 +11,18 @@ import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
 import { apiReq } from "@/app/utils/fetch";
 import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
+  const pathname = usePathname()
   const router = useRouter()
 
   const { 
     sidebarToggle, 
-    handleSidebarToggle, 
+    handleSidebarToggle,
+    headerLinkToggle,
     profileDropDownToggle,
+    handleHeaderLinkToggle,
     handleProfileDropDownToggle
   } = useContext(ToggleContext)
   const [user_id, setUser_id] = useState(null)
@@ -30,8 +34,7 @@ export default function Header() {
       const uid = localStorage.getItem("user_id")
       const fname = localStorage.getItem("first_name")
       const lname = localStorage.getItem("last_name")
-      if (!uid || !fname || !lname)
-        throw new Error("Please Signin")
+      
       setUser_id(uid)
       setF_name(fname[0])
       setL_name(lname[0])
@@ -41,7 +44,7 @@ export default function Header() {
   }, [])
 
   const handleSignout = async () => {
-    const res = await apiReq(8010, 'terra.user-service/signout', null, 'POST', null)
+    const res = await apiReq(8000, 'signout', null, 'POST', null)
     localStorage.removeItem("user_id")
     localStorage.removeItem("first_name")
     localStorage.removeItem("last_name")
@@ -73,10 +76,10 @@ export default function Header() {
       </div>
 
       <div id='header-links'>
-        <Link href="/" className="header-link">Home</Link>
-        <p className="header-link">About</p>
-        <Link href='/contact' className="header-link">Contacts</Link>
-        <Link href='/new-projects' className="header-link">New Projects</Link>
+        <Link onClick={() => handleHeaderLinkToggle("home")} href="/" className={`header-link ${headerLinkToggle === "home" ? 'active' : ''}`}>Home</Link>
+        <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p>
+        <Link onClick={() => handleHeaderLinkToggle("contacts")} href='/contact' className={`header-link ${headerLinkToggle === "contacts" ? 'active' : ''}`}>Contacts</Link>
+        <Link onClick={() => handleHeaderLinkToggle("new-projects")} href='/new-projects' className={`header-link ${headerLinkToggle === "new-projects" ? 'active' : ''}`}>New Projects</Link>
       </div>
 
       <div className="user-icon signin-header-btn">

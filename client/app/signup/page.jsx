@@ -5,6 +5,7 @@ import '../components/SignForms/signForm.css'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { apiReq } from '../utils/fetch'
+import { toast } from 'react-toastify'
 
 export default function SignForm() {
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function SignForm() {
         e.preventDefault()
 
         const response = await apiReq(
-            8010, 
+            8000, 
             'terra.user-service/create.user', 
             null, 
             'POST', 
@@ -27,9 +28,10 @@ export default function SignForm() {
         )
 
         if (response.status === 201) {
+            toast.success("Terra account created")
             router.push('/signin')
         } else {
-            console.log(response)
+            toast.error("Error creating account")
         }
     }
 

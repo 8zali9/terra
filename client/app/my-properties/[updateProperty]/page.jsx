@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import './add-property.css'
 import { apiReq, apiReqByUserAndProperty } from '../../utils/fetch'
 import Header from '../../components/Header/Header'
+import { toast } from 'react-toastify'
 
 export default function AddUpdatePropertyForm({ params }) {
     const [purpose, setPurpose] = useState("")
@@ -32,11 +33,11 @@ export default function AddUpdatePropertyForm({ params }) {
         const fetchUserPropertyDetails = async () => {
             try {
                 const propertyToUpdate = params.updateProperty
-                const res = await apiReq(8020, 'terra.property-service/get.property', propertyToUpdate, 'GET', null)
+                const res = await apiReq(8000, 'terra.property-service/get.property', propertyToUpdate, 'GET', null)
                 const result = await res.json()
                 setUserPropertyDetails(result.response[0])
             } catch (error) {
-                console.log(error)
+                toast.error("Error getting your property. Try reloading")
             }
         }
 
@@ -103,7 +104,6 @@ export default function AddUpdatePropertyForm({ params }) {
             } 
             setUser_id(uid)
 
-            console.log(user_id)
             const res = await apiReqByUserAndProperty(
                 8020,
                 'terra.property-service/update.property',
@@ -134,12 +134,12 @@ export default function AddUpdatePropertyForm({ params }) {
             const result = await res.json()
 
             if (res.status === 200) {
-                console.log(result)
+                toast.success("Property updated")
             } else {
-                console.log("error", result)
+                toast.error("Error Updating your property")
             }
         } catch (error) {
-            console.log(error)
+            toast.error(error)
         }
 
     }

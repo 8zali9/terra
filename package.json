@@ -1,0 +1,23 @@
+{
+  "name": "terra---real-estate-webapp",
+  "version": "1.0.0",
+  "description": "Terra - Real Estate Web App",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "frontend": "npm run dev --prefix client",
+    "auth-gateway": "npm run auth-gateway --prefix backend/auth-gateway",
+    "notification-service": "npm run notification-service --prefix backend/notification-service",
+    "property-service": "npm run property-service --prefix backend/property-service",
+    "user-service": "npm run user-service --prefix backend/user-service",
+    "terra-app": "concurrently \"npm run auth-gateway\" \"npm run notification-service\" \"npm run property-service\" \"npm run user-service\" \"npm run frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

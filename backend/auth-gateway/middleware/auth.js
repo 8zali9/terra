@@ -41,7 +41,7 @@ const authenticate = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
         const user = await fetchUser(req.params.user_id)
 
-        if (req.params.user_id && req.params.user_id != decodedToken.userID) {
+        if (req.params.user_id && req.params.user_id != decodedToken.userID[0].user_id) {
             return res.status(403).json({ error: "Forbidden. You don't have access to this resource." })
         }
         req.user = user

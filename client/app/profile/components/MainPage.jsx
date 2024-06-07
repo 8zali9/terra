@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useContext } from 'react'
 import UpdateForm from './UpdateForm'
 import { ProfileContext } from '../context/ContextProvider'
+import { toast } from 'react-toastify'
 
 export default function MainPage() {
     const router = useRouter()
@@ -25,14 +26,16 @@ export default function MainPage() {
                 }
                     
                 const res = await apiReq(8010, 'terra.user-service/get.user', user_id, 'GET', null)
+                const data = await res.json();
+
                 if (res.status === 200) {
-                    const data = await res.json();
                     setUserDetails(data.response)
                 } else{
-                    console.log("error fetching", res)
+                    console.log(data)
+                    toast.error(data.error)
                 }
             } catch (error) {
-                console.log(error)
+                toast.error(error)
             }
         }
 
