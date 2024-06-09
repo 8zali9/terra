@@ -9,9 +9,10 @@ import { IoPlayBack } from "react-icons/io5";
 import { ToggleContext } from '../../contextProviders/ToggleContextProvider'
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
-import { apiReq } from "@/app/utils/fetch";
+import { apiReq } from "../../utils/fetch";
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
+import { io } from "socket.io-client";
 
 export default function Header() {
   const pathname = usePathname()
@@ -38,7 +39,29 @@ export default function Header() {
       setUser_id(uid)
       setF_name(fname[0])
       setL_name(lname[0])
-    } catch (error) {
+      const user_id = localStorage.getItem("user_id");
+    const socket = io("http://localhost:8000",{
+      auth: {
+        token: user_id,
+      },
+    });
+    socket.on("connect", () => {
+      console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on('onlineUsers', (data) => {
+      console.log(data)
+    })
+    
+    socket.on('newNotification', ({sender_id}) => {
+      router.push(`/chat/${sender_id}`)
+    })
+    
+    
+    
+    
+  }
+     catch (error) {
       console.log(error)
     }
   }, [])
@@ -76,8 +99,10 @@ export default function Header() {
       </div>
 
       <div id='header-links'>
+      <div className='bg-black text-green-500'>helloo</div>
+
         <Link onClick={() => handleHeaderLinkToggle("home")} href="/" className={`header-link ${headerLinkToggle === "home" ? 'active' : ''}`}>Home</Link>
-        {/* <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p> */}
+        <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p>
         <Link onClick={() => handleHeaderLinkToggle("contacts")} href='/contact' className={`header-link ${headerLinkToggle === "contacts" ? 'active' : ''}`}>Contacts</Link>
         <Link onClick={() => handleHeaderLinkToggle("new-projects")} href='/new-projects' className={`header-link ${headerLinkToggle === "new-projects" ? 'active' : ''}`}>New Projects</Link>
       </div>

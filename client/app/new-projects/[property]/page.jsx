@@ -1,16 +1,20 @@
 "use client"
+import { io } from "socket.io-client";
 
 import React, { useEffect, useState } from 'react'
 import './property.css'
 import Header from '../../components/Header/Header'
-import { apiReq } from '@/app/utils/fetch'
+import { apiReq } from '../../utils/fetch'
 import { toast } from 'react-toastify'
 import { LiaBedSolid } from "react-icons/lia";
 import { LuBath } from "react-icons/lu";
 import { TbResize } from "react-icons/tb";
+import Link from 'next/link'
 
 export default function page({ params }) {
     const [propertyDetails, setPropertyDetails] = useState(null)
+    const [onlineUsers, setOnlineUsers] = useState([])
+    let user_id = '';
     
     useEffect(() => {
         const fetchPropertyDetails = async () => {
@@ -18,9 +22,9 @@ export default function page({ params }) {
                 const property_id = params.property
                 console.log(property_id)
 
-                const res = await apiReq(8000, 'terra.property-service/get.property', property_id, 'GET', null)
+                const res = await apiReq(8020, 'terra.property-service/get.property', property_id, 'GET', null)
                 const result = await res.json()
-
+                console.log(result.response[0])
                 setPropertyDetails(result.response[0])
             } catch (error) {
                 toast.error(error)
@@ -28,6 +32,22 @@ export default function page({ params }) {
         }
 
         fetchPropertyDetails()
+
+      
+            user_id = localStorage.getItem("user_id");
+            const socket = io("http://localhost:8000",{
+              auth: {
+                token: user_id,
+              },
+            });
+            socket.on("connect", () => {
+              console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+            });
+        
+            socket.on('onlineUsers', (data) => {
+              console.log(data)
+                setOnlineUsers(data)
+            })
 
     }, [])
   return (
@@ -60,12 +80,17 @@ export default function page({ params }) {
                 </div>
 
                 <div id='property-owner-section'>
-                    <h4>Posted By</h4>
+                    <h4 id='h-heading'>Posted By</h4>
                     <p>{propertyDetails.first_name} {propertyDetails.last_name}</p>
                     <div id='property-owner-section-contact-div'>
                         <div id='property-owner-section-contact-btn'>Call {propertyDetails.phone_number}</div>
                         <p>or</p>
-                        <div id='property-owner-section-chat-btn'>Have a chat</div>
+                       {onlineUsers.includes(propertyDetails.user_id && propertyDetails.user_id !== user_id) ? <Link id='property-owner-section-chat-btn' href={`/chat/${propertyDetails.user_id}`}>Have a Chat</Link> : <div>Owner is not online</div>}
+
+                       
+
+
+                    {/* </div> */}
                     </div>
                 </div>
 

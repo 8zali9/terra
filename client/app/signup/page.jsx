@@ -37,6 +37,7 @@ export default function SignForm() {
 
     return (
         <div className='sign-form-page'>
+
             <img className='signform-img' src='./bg.jpg' />
             <div className='sign-form-side-styles'>
                 <div className='terra-flipped-abb'>
@@ -66,6 +67,7 @@ export default function SignForm() {
                     onChange={(e) => setLast_name(e.target.value)}
                     value={last_name}
                 />
+                
                 <input
                 className='signform-input'
                     type="email"
