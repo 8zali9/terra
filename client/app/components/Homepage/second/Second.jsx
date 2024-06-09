@@ -4,7 +4,7 @@ import "./second.css";
 export default function Second() {
   return (
     <div className='second-home'>
-        This is how the next content will look
+        &copy; 2024 Terra - All Rights Reserved.
     </div>
   )
 }

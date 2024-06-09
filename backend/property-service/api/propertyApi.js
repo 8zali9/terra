@@ -82,6 +82,8 @@ router.post('/create.property', async (req, res) => {
             property_images, longitude, latitude, user_id, builder_name, location_name, property_subtype_id
         );
 
+        console.log(response)
+
         if (response.errorStatus === 500) {
             res.status(500).json({ error: response.error });
         } else if (response.errorStatus === 404) {

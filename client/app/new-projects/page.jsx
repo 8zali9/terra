@@ -27,6 +27,7 @@ export default function page() {
   const [fetchedLocations, setFetchedLocations] = useState([])
 
   const [searchResults, setSearchResults] = useState()
+  const [image, setImage] = useState()
 
   const { 
     sidebarToggle, 
@@ -78,13 +79,14 @@ export default function page() {
 
       const result = await res.json()
       setSearchResults(result.response)
+      console.log(searchResults)
     } catch (error) {
       toast.error("Error searching properties")
     }
   }
 
   return (
-    <div className='new-projects main-searchpage'>
+    <div id='new-projects main-searchpage'>
         <Header />
         <div className='search-section'> 
             <div className='sidebar'>
@@ -184,10 +186,23 @@ export default function page() {
             <div className='rsp results-searchbar-page'>
                 <div className='searchbar-section'>
                   <div id='searchbar-section-filtered'>
-                    <div className='searchbar-section-filtered-inner-div'>{propertySubtypeToggle}</div>
-                    <div className='searchbar-section-filtered-inner-div'>{location_name}</div>
+                    {
+                      propertySubtypeToggle &&
+                      <div className='searchbar-section-filtered-inner-div'>{propertySubtypeToggle}</div>
+                    }
+                    {
+                      location_name &&
+                      <div className='searchbar-section-filtered-inner-div'>{location_name}</div>
+                    }
+                    {
+                      minPrice && maxPrice && 
                     <div className='searchbar-section-filtered-inner-div'>{minPrice} - {maxPrice}</div>
+                    }
+                    {
+                      numberOfRooms && 
                     <div className='searchbar-section-filtered-inner-div'>Bedrooms {numberOfRooms}</div>
+                    }
+                    
                   </div>
                   <button id='main-search-pg-search-btn' onClick={handleSearch}>Search</button>
                 </div>
@@ -198,8 +213,8 @@ export default function page() {
                   {
                     searchResults &&
                     searchResults.map((property, index) => (
-                    <div className="property-card pc" key={index}>
-                      <img src="./bg.jpg" alt="Property" />
+                    <div className="property-card-of-results pc" key={index}>
+                      <img src={property.property_images && property.property_images[0] ? property.property_images[0] : '/imgs/1.jpg'} alt="Property" />
                       <div className="card-details">
                         <h3>PKR {property.price}</h3>
                         <p>{property.purpose}</p>

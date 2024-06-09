@@ -1,15 +1,12 @@
 "use client"
-import { io } from "socket.io-client";
 
+import { io } from "socket.io-client";
 import React, { useEffect, useState } from 'react'
-import './property.css'
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import { apiReq } from '../../utils/fetch'
 import { toast } from 'react-toastify'
-import { LiaBedSolid } from "react-icons/lia";
-import { LuBath } from "react-icons/lu";
-import { TbResize } from "react-icons/tb";
 import Link from 'next/link'
+import Header from "@/app/components/Header/Header";
 
 export default function page({ params }) {
     const [propertyDetails, setPropertyDetails] = useState(null)
@@ -22,7 +19,7 @@ export default function page({ params }) {
                 const property_id = params.property
                 console.log(property_id)
 
-                const res = await apiReq(8020, 'terra.property-service/get.property', property_id, 'GET', null)
+                const res = await apiReq(8000, 'terra.property-service/get.property', property_id, 'GET', null)
                 const result = await res.json()
                 console.log(result.response[0])
                 setPropertyDetails(result.response[0])
@@ -50,58 +47,107 @@ export default function page({ params }) {
             })
 
     }, [])
-  return (
-    <div id='property-pg'>
-        <Header />
 
-        {
-            propertyDetails &&
-            <div className='property-details'>
-                <div id='property-head-img'>
-                    <h2>{propertyDetails.property_title}</h2>
-                    <img id='property-ad-img' src="/imgs/1.jpg" />
-                    <div id='property-ad-price-area-div'>
-                        <h3>Rs. {propertyDetails.price}</h3>
-                        <div id='property-ad-bed-bath-area-div-right'>
-                            <div className='property-ad-property-bed-bath-area'>
-                                <LiaBedSolid className='property-ad-bed-bath-area-icon' />
-                                <p>{propertyDetails.bedrooms} Bedrooms</p>
+    const copyToClipboard = async (phone_number) => {
+        try {
+          await navigator.clipboard.writeText(phone_number);
+          toast.dark('Copied')
+        } catch (err) {
+          toast.info('Cannot copy.')
+        }
+      };
+    
+    return (
+        <>
+            <Header />
+            <div className='m-10 mt-4 p-6 flex gap-16' >
+                {/* left side */}
+                {
+                    propertyDetails &&
+                    <div className=' w-[70%]'>
+                        {/* picture and graphical */}
+                        <div className=' w-full'>
+                            <p className=' font-semibold mb-3'>{propertyDetails.property_title}</p>
+                            <img id='user-property-img' src={propertyDetails.property_images && propertyDetails.property_images[0] ? propertyDetails.property_images[0] : '/imgs/1.jpg'} alt="Property" />
                             </div>
-                            <div className='property-ad-property-bed-bath-area'>
-                                <LuBath className='property-ad-bed-bath-area-icon' />
-                                <p>{propertyDetails.bathrooms} Bathrooms</p>
+                        <div className=' flex justify-between mt-8'>
+                            {/* money and location */}
+                            <div className=' space-y-4'>
+                                <h1 className='font-semibold text-3xl'>RS. {propertyDetails.price}</h1>
+                                <div className=' align-middle flex'>
+                                    <img src='/icons/pin.png' width={30} />
+                                    <p className='font-medium text-sm pt-1 '>KDA Officers Society, Karachi</p>
+                                </div>
                             </div>
-                            <div className='property-ad-property-bed-bath-area'>
-                                <TbResize className='property-ad-bed-bath-area-icon' />
-                                <p>{propertyDetails.area} sqft yd.</p>
+                            {/* room detail */}
+                            <div className='flex gap-3 justify-between text-center items-center '>
+                                {/* bed */}
+                                <div>
+                                    <img src='/icons/Bedroom-icon.png' width={30} />
+                                    <p>{propertyDetails.bedrooms} Beds</p>
+                                </div>
+                                {/* WC */}
+                                <div>
+                                    <img src='/icons/bathroom-icon.png' width={30} />
+                                    <p>{propertyDetails.bathrooms} Baths</p>
+                                </div>
+                                {/* area */}
+                                <div className='text-center items-center'>
+                                    <img src='/icons/area-icon.png' width={30} />
+                                    <p>{propertyDetails.area} sq. yd.</p>
+                                </div>
                             </div>
                         </div>
+                        
+
+                        {/* Description */}
+                        <div className='border-[#ED6755]  rounded-lg border-2 mt-20 p-4'>
+                            <h1 className=' font-semibold text-3xl mb-6'>Description</h1>
+                            <div className=' text-gray-500 text-sm'>
+                                <p>{propertyDetails.purpose}</p>
+                                <p>{propertyDetails.property_description}</p>
+                                <p>Date Listed: {propertyDetails.date_listed}</p>
+                            </div>
+
+                        </div>
+
                     </div>
-                </div>
+                }
 
-                <div id='property-owner-section'>
-                    <h4 id='h-heading'>Posted By</h4>
-                    <p>{propertyDetails.first_name} {propertyDetails.last_name}</p>
-                    <div id='property-owner-section-contact-div'>
-                        <div id='property-owner-section-contact-btn'>Call {propertyDetails.phone_number}</div>
-                        <p>or</p>
-                       {onlineUsers.includes(propertyDetails.user_id && propertyDetails.user_id !== user_id) ? <Link id='property-owner-section-chat-btn' href={`/chat/${propertyDetails.user_id}`}>Have a Chat</Link> : <div>Owner is not online</div>}
+                {/* Right side */}
 
-                       
+                {
+                    propertyDetails &&
+                    <div className=' rounded-lg border-2 border-[#ED6755] w-[25%] p-4 font-semibold text-center h-[400px] mt-10'>
+                        <p className=' font-semibold'>Posted By</p>
+                        {/* username and pic */}
+                        <div className=' my-3 mx-2 flex  mb-16'>
+                            <img src='/icons/profile-avatar.png' width={70} alt="" />
+                            <div className=' ml-3 pt-4 font-semibold'>
+                                <p className="mt-2">{propertyDetails.first_name} {propertyDetails.last_name}</p>
+                            </div>
+                        </div>
+                        {/* Phone Number Button */}
+                        <button
+                            onClick={() => copyToClipboard(propertyDetails.phone_number)}
+                            className="group relative flex w-[90%] gap-3 mx-auto justify-center mb-6 rounded-md bg-[#ED6755] py-3 px-3 text-sm font-semibold text-white hover:bg-[#d0796d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                        >
 
+                            <img src='/icons/call-icon.png' width={23} />
+                            Copy Phone Number
+                        </button>
+                        OR
+                        {/* CHAT Button */}
+                        <button
+                            className="group relative flex gap-3 w-[90%] mt-6 mx-auto justify-center mb-8 border-[#ED6755]  border-2 rounded-md bg-white py-3 px-3 text-sm font-semibold text-black hover:bg-[#d0796d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                        >
+                            <img src='/icons/chat-icon.png' width={23} />
+                            {onlineUsers.includes(propertyDetails.user_id && propertyDetails.user_id !== user_id) ? <Link id='property-owner-section-chat-btn' href={`/chat/${propertyDetails.user_id}`}>Have a Chat</Link> : <div>Owner is not online</div>}
+                        </button>
 
-                    {/* </div> */}
                     </div>
-                </div>
-
-                <div id='property-descroption-section'>
-                    <h4>Description</h4>
-                    <p>{propertyDetails.property_description}</p>
-                    <p>{propertyDetails.purpose}</p>
-                    <p>Date Listed: {propertyDetails.date_listed}</p>
-                </div>
+                }
             </div>
-        }
-    </div>
-  )
+        </>
+    )
 }

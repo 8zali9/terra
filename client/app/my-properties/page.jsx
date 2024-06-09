@@ -64,21 +64,21 @@ export default function Page() {
                         <div id='user-all-properties-list'>
                             {properties.map((property, index) => (
                                 <div key={index} className="property-card">
-                                    <img id='user-property-img' src="/imgs/1.jpg" />
-                                    <div className='user-property-details-div'>
-                                        <div id='user-property-details-head'>
-                                            <h3>Rs. {property.price}</h3>
-                                            <Link id='property-update-btn' href={`/my-properties/${property.property_id}`}><BiEdit /></Link>
-                                        </div>
-                                        <p>{property.purpose}</p>
-                                        <div id='bed-bath-area-div'>
-                                            <p className='bed-bath-area'><LiaBedSolid /> {property.bedrooms}</p>
-                                            <p className='bed-bath-area'><LuBath /> {property.bathrooms}</p>
-                                            <p className='bed-bath-area'><TbResize /> {property.area}</p>
-                                        </div>                                        
-                                        <div id='view-link-div'>
-                                            <Link className='view-update-btns view-btn' href={`/new-projects/${property.property_id}`}>View Live</Link>
-                                        </div>
+                                        <img id='user-property-img' src={property.property_images && property.property_images[0] ? property.property_images[0] : './imgs/1.jpg'} alt="Property" />
+                                        <div className='user-property-details-div'>
+                                            <div id='user-property-details-head'>
+                                                <h3>Rs. {property.price}</h3>
+                                                <Link id='property-update-btn' href={`/my-properties/${property.property_id}`}><BiEdit /></Link>
+                                            </div>
+                                            <p>{property.purpose}</p>
+                                            <div id='bed-bath-area-div'>
+                                                <p className='bed-bath-area'><LiaBedSolid /> {property.bedrooms}</p>
+                                                <p className='bed-bath-area'><LuBath /> {property.bathrooms}</p>
+                                                <p className='bed-bath-area'><TbResize /> {property.area}</p>
+                                            </div>                                        
+                                            <div id='view-link-div'>
+                                                <Link className='view-update-btns view-btn' href={`/new-projects/${property.property_id}`}>View Live</Link>
+                                            </div>
                                     </div>
                                 </div>
                             ))}

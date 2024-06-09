@@ -11,22 +11,19 @@ export async function POST(request) {
     const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
     const containerClient = blobServiceClient.getContainerClient(containerName);
 
-    const existingBlobName = `user-${user_id}/profile.jpeg`;
-    const existingBlockBlobClient = containerClient.getBlockBlobClient(existingBlobName);
-    await existingBlockBlobClient.deleteIfExists();
-
     const blobName = `user-${user_id}/profile.jpeg`;
-    const imageBuffer = Buffer.from(base64Image, 'base64');
-    
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const imageBuffer = Buffer.from(base64Image, 'base64');
+
+    await blockBlobClient.deleteIfExists();
+
     await blockBlobClient.uploadData(imageBuffer, { blobHTTPHeaders: { blobContentType: 'image/jpeg' } });
 
     const imagePath = `https://k4terrastorage.blob.core.windows.net/${containerName}/${blobName}`;
-    console.log("imagePath", imagePath)
-    
-    return NextResponse.json( { message: 'Image uploaded successfully', imagePath: imagePath } );
+
+    return NextResponse.json({ message: 'Image uploaded successfully', imagePath: imagePath });
   } catch (error) {
     console.error(error);
-    return NextResponse.json( { error: 'Error occurred' } );
+    return NextResponse.json({ error: 'Error occurred' });
   }
 }

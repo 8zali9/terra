@@ -9,6 +9,7 @@ import { LiaChartAreaSolid } from "react-icons/lia";
 import { HiSpeakerphone } from "react-icons/hi";
 import Header from './components/Header/Header';
 import { ToggleContext } from './contextProviders/ToggleContextProvider';
+import Link from 'next/link';
 
 export default function NewProjects() {
     const {
@@ -24,7 +25,7 @@ export default function NewProjects() {
                         <p className='main-head'>LET'S FIND A PERFECT PROPERTY FOR YOU</p>
                         <p className='main-all-over-pk'>Search from 500,000+ properties all over Pakistan</p>
 
-                        <div className='main-search'>
+                        {/* <div className='main-search'>
                             <div className='for-sale-rent'>
                                 <p onClick={handleSaleToggle} className={`for-sr-sale ${saleToggle ? "for-sr-sale-active" : ""}`}>For Sale</p>
                                 <p onClick={handleRentToggle} className={`for-sr-rent ${rentToggle ? "for-sr-rent-active" : ""}`}>For Rent</p>
@@ -62,7 +63,9 @@ export default function NewProjects() {
                                     <p>Commercial</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+
+                        <Link href='/new-projects' id='main-search'>Search New Properties</Link>
 
                     </div>
 

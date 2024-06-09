@@ -99,8 +99,6 @@ export default function Header() {
       </div>
 
       <div id='header-links'>
-      <div className='bg-black text-green-500'>helloo</div>
-
         <Link onClick={() => handleHeaderLinkToggle("home")} href="/" className={`header-link ${headerLinkToggle === "home" ? 'active' : ''}`}>Home</Link>
         <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p>
         <Link onClick={() => handleHeaderLinkToggle("contacts")} href='/contact' className={`header-link ${headerLinkToggle === "contacts" ? 'active' : ''}`}>Contacts</Link>

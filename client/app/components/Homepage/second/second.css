@@ -2,6 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 650px;
+    margin-top: 569px;
     font-family: "overpass";
+    background-color: orangered;
+    color: white;
+    padding: 30px;
 }

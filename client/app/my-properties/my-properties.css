@@ -1,3 +1,7 @@
+#user-properties-main-pg{
+    margin-bottom: 30px;
+}
+
 #user-properties-pg-header{
     display: flex;
     flex-direction: row;
@@ -25,7 +29,6 @@
     border-color: orangered;
     color: orangered;
     background-color: white;
-
 }
 
 #user-all-properties-div{
@@ -43,17 +46,21 @@
 }
 
 .property-card{
+    display: flex;
+    flex-direction: column;
     border: 1px solid orangered;
     border-radius: 4px;
     width: 380px;
 }
 
 #user-property-img{
+    border-radius: 4px;
     width: 100%;
 }
 
 .user-property-details-div{
     padding: 10px;
+    width: 100%;
 }
 
 #user-property-details-head{
