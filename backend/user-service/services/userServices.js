@@ -70,14 +70,12 @@ const updateUserService = async (
             )
         }
 
-        console.log(response)
-
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 }
         } else if (response.dbStatus === 404) {
             return { error: "User not found", errorStatus: 404 }
         }
-        return { message: "User updated.", response: response.response, okStatus: 200 }
+        return { message: "User updated.", response: email, okStatus: 200 }
     } catch (error) {
         return { error: `server/service error while updating user: ${error}` }
     }

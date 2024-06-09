@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const { amq_init } = require('../message-queue/amq_init')
 require('dotenv').config()
 
-const sendGmail = async (userEmail) => {
+const accountUpdationEmail = async (userEmail) => {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -16,7 +16,7 @@ const sendGmail = async (userEmail) => {
   let info = await transporter.sendMail({
     from: "Terra <terra.k4.org@gmail.com>",
     to: userEmail,
-    subject: `Terra Account Created`,
+    subject: `Terra Account Updated`,
     html: `
     <div style="
     background-color: orange;
@@ -25,12 +25,12 @@ const sendGmail = async (userEmail) => {
     padding: 20px;
     text-align: center;
     ">
-      <h1>Welcome to Terra, your new world to find your world</h1>
-      <p>We are truly excited to see you on our platform</p>
-      <p>Can't wait for you to browse newly added properties</p>
+      <h1>Your profile got updated</h1>
+      <p>If this wasn't you, please contact our support team immediately</p>
+      <a href='terra.k4.org@gmail.com'>Terra Support</a>
     </div>
     `,
   });
 };
 
-amq_init("sub", sendGmail, "user-account-created")
+amq_init("sub", accountUpdationEmail, "account-updation-notification")

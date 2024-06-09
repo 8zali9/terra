@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "notification-service": "nodemon sendNotification.js"
+    "account-creation": "nodemon accountCreationNotification.js",
+    "account-updation": "nodemon accountUpdationNotification.js",
+    "notification-service": "concurrently \"npm run account-creation\" \"npm run account-updation\""
   },
   "keywords": [],
   "author": "",

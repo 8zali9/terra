@@ -48,7 +48,7 @@ router.post('/create.user', async(req, res) => {
             res.status(404).json({ response: response.error })
         } else {
             const userEmail = response.response
-            amq_init("pub", userEmail, "user-account-created")
+            amq_init("pub", userEmail, "account-creation-notification")
             res.status(201).json({ message: "User created.", response: response.response })
         }
     } catch (error) {
@@ -73,7 +73,9 @@ router.put('/update.user/:user_id', async(req, res) => {
         } else if (response.errorStatus === 404) {
             res.status(404).json({ response: response.error })
         } else if (response.okStatus === 200) {
-            res.status(200).json({ message: "User updated." })
+            const userEmail = response.response
+            amq_init("pub", userEmail, "account-updation-notification")
+            res.status(200).json({ message: "User updated.", response: response.response })
         }
     } catch (error) {
         res.status(500).json({ error: `server error while updating user: ${error}` })
