@@ -77,7 +77,7 @@ export default function Header() {
 
       <div id='header-links'>
         <Link onClick={() => handleHeaderLinkToggle("home")} href="/" className={`header-link ${headerLinkToggle === "home" ? 'active' : ''}`}>Home</Link>
-        <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p>
+        {/* <p onClick={() => handleHeaderLinkToggle("about")} className={`header-link ${headerLinkToggle === "about" ? 'active' : ''}`}>About</p> */}
         <Link onClick={() => handleHeaderLinkToggle("contacts")} href='/contact' className={`header-link ${headerLinkToggle === "contacts" ? 'active' : ''}`}>Contacts</Link>
         <Link onClick={() => handleHeaderLinkToggle("new-projects")} href='/new-projects' className={`header-link ${headerLinkToggle === "new-projects" ? 'active' : ''}`}>New Projects</Link>
       </div>

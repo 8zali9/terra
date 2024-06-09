@@ -50,7 +50,8 @@ const createUserService = async (
 const updateUserService = async (
     first_name, last_name, email, password, phone_number, user_profile_image, user_id
 ) => {
-    try {        
+    try {
+        // console.log(user_profile_image)
         let response;
         if (password) {
             let hashedPassword;
@@ -68,6 +69,8 @@ const updateUserService = async (
                 first_name, last_name, email, phone_number, user_profile_image, user_id
             )
         }
+
+        console.log(response)
 
         if (response.dbStatus === 500) {
             return { error: "DB error.", errorStatus: 500 }

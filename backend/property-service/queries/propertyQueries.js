@@ -4,9 +4,11 @@ const getAllPropertiesQuery = `
 `;
 
 const getPropertyQuery = `
-    select p.*, u.first_name, u.last_name, u.phone_number
+    select p.*, u.first_name, u.last_name, u.phone_number, l.location_name, b.builder_name
     from Property p
     join user u on p.user_id = u.user_id
+    join location l on p.location_id = l.location_id
+    join builder b on p.builder_id = b.builder_id
     where property_id = ?
 `;
 

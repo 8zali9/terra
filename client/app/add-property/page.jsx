@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './add-property.css'
 import { apiReq } from '../utils/fetch'
 import Header from '../components/Header/Header'
@@ -12,9 +12,9 @@ export default function AddUpdatePropertyForm() {
 
     const [purpose, setPurpose] = useState("")
     const [price, setPrice] = useState(0)
-    const [on_installment, setOn_installment] = useState()
+    const [on_installment, setOn_installment] = useState(0)
     const [installment_rate, setInstallment_rate] = useState("")
-    const [bedrooms, setBedrooms] = useState()
+    const [bedrooms, setBedrooms] = useState(0)
     const [bathrooms, setBathrooms] = useState("")
     const [area, setArea] = useState("")
     const [property_title, setProperty_title] = useState("")
@@ -27,6 +27,8 @@ export default function AddUpdatePropertyForm() {
     const [builder_name, setBuilder_name] = useState("")
     const [location_name, setLocation_name] = useState("")
     const [property_subtype_id, setProperty_subtype_id] = useState(1)
+
+    const [isDisabled, setIsDisabled] = useState(true)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -76,8 +78,48 @@ export default function AddUpdatePropertyForm() {
         } catch (error) {
             toast.error(error)
         }
-
     }
+
+    useEffect(() => {
+        setIsDisabled(
+            purpose === "" &&
+            price === 0 &&
+            on_installment === "" &&
+            installment_rate === 0 &&
+            bedrooms === "" &&
+            bathrooms === "" &&
+            area === "" &&
+            property_title === null &&
+            date_listed === null &&
+            property_description === "" &&
+            property_history === null &&
+            longitude === null &&
+            latitude === null &&
+            builder_name === "" &&
+            location_name === "" &&
+            property_subtype_id === 1
+        )
+
+        console.log(isDisabled)
+    }, [
+        purpose,
+        price,
+        on_installment,
+        installment_rate,
+        bedrooms,
+        bathrooms,
+        area,
+        property_title,
+        date_listed,
+        property_description,
+        property_history,
+        longitude,
+        latitude,
+        user_id,
+        builder_name,
+        location_name,
+        property_subtype_id
+    ])
 
   return (
     <div id='add-property-main-pg'>
@@ -171,7 +213,7 @@ export default function AddUpdatePropertyForm() {
                     <input type="number" id="latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}/>
                 </div> */}
 
-                <button id='add-property-btn' type='submit'>Add</button>
+                <button disabled={isDisabled} id='add-property-btn' type='submit'>Add</button>
             </div>
         </form>
     </div>

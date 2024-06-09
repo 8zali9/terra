@@ -36,6 +36,7 @@ export default function AddUpdatePropertyForm({ params }) {
                 const res = await apiReq(8000, 'terra.property-service/get.property', propertyToUpdate, 'GET', null)
                 const result = await res.json()
                 setUserPropertyDetails(result.response[0])
+                console.log(result.response[0])
             } catch (error) {
                 toast.error("Error getting your property. Try reloading")
             }
@@ -54,14 +55,18 @@ export default function AddUpdatePropertyForm({ params }) {
             setBathrooms(userPropertyDetails.bathrooms)
             setArea(userPropertyDetails.area)
             setProperty_title(userPropertyDetails.property_title)
-            setDate_listed(userPropertyDetails.date_listed)
+            setDate_listed(new Date().toISOString().slice(0, 10))
             setProperty_description(userPropertyDetails.property_description)
             setproperty_history(userPropertyDetails.property_history)
             setLongitude(userPropertyDetails.longitude)
             setLatitude(userPropertyDetails.latitude)
+            setUser_id(userPropertyDetails.user_id)
             setBuilder_name(userPropertyDetails.builder_name)
             setLocation_name(userPropertyDetails.location_name)
             setProperty_subtype_id(userPropertyDetails.property_subtype_id)
+
+            console.log(userPropertyDetails.date_listed)
+            console.log(date_listed)
         }
     }, [
         userPropertyDetails
@@ -105,7 +110,7 @@ export default function AddUpdatePropertyForm({ params }) {
             setUser_id(uid)
 
             const res = await apiReqByUserAndProperty(
-                8020,
+                8000,
                 'terra.property-service/update.property',
                 user_id,
                 propertyToUpdate,
@@ -132,6 +137,7 @@ export default function AddUpdatePropertyForm({ params }) {
             )
 
             const result = await res.json()
+            console.log(result)
 
             if (res.status === 200) {
                 toast.success("Property updated")

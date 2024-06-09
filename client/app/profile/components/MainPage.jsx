@@ -44,11 +44,17 @@ export default function MainPage() {
 
     useEffect(() => {
         if (userDetails) {
+            setTimeout(() => {
+                setUser_profile_image(userDetails.user_profile_image)
+            }, 1000);
             setFirst_name(userDetails.first_name)
             setLast_name(userDetails.last_name)
             setEmail(userDetails.email)
             setPhone_number(userDetails.phone_number)
-            setUser_profile_image(userDetails.user_profile_image)
+
+            console.log("STATE", userDetails.user_profile_image)
+            console.log("STATE", userDetails.first_name)
+            console.log("STATEFUL", user_profile_image)
         }
     }, userDetails)
 
@@ -58,7 +64,9 @@ export default function MainPage() {
                 userDetails.first_name === first_name && 
                 userDetails.last_name === last_name && 
                 userDetails.email === email &&
-                userDetails.phone_number === phone_number
+                userDetails.phone_number === phone_number &&
+                userDetails.password === password
+                // userDetails.user_profile_image === user_profile_image
             )
         }
     }, [

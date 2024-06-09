@@ -17,7 +17,7 @@ const checkBuilder = async (builder_name) => {
         }
         return createNewBuilder
     } else {
-        return builder
+        return builder.response[0].builder_id
     }
 }
 
@@ -34,6 +34,7 @@ const checkLocation = async (location_name) => {
     if (location.error) {
         throw new Error("Invalid Location")
     }
+    console.log("location", location)
     return location
 }
 

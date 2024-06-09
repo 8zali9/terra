@@ -62,8 +62,7 @@ const createPropertyService = async (
 ) => {
     try {
         // checks for foreign key validation/existence
-        const builder = await checkBuilder(builder_name)
-        const builder_id = builder.response[0].builder_id
+        const builder_id = await checkBuilder(builder_name)
         await checkPropertySubType(property_subtype_id)
         const locationCheck = await checkLocation(location_name)
         const location_id = locationCheck.response[0].location_id
@@ -74,7 +73,6 @@ const createPropertyService = async (
             property_id, property_title, date_listed, property_description, property_history, 
             property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
         );
-        console.log(response)
         if (response.dbStatus === 500) {
             return { error: "DB error." };
         } else if (response.dbStatus === 404) {
@@ -94,11 +92,10 @@ const updatePropertyService = async (
 ) => {
     try {
         // checks for foreign key validation/existence
-        const builder = await checkBuilder(builder_name)
-        const builder_id = builder.response.builder_id
+        const builder_id = await checkBuilder(builder_name)
         await checkPropertySubType(property_subtype_id)
         const locationCheck = await checkLocation(location_name)
-        const location_id = locationCheck.response.location_id
+        const location_id = locationCheck.response[0].location_id
 
         const response = await updateProperty(
             purpose, price, on_installment, installment_rate, bedrooms, bathrooms, area, 

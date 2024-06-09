@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['*'], // Allow any hostname
         remotePatterns: [
             {
-              hostname: '**', // Use a wildcard for the hostname
-              pathname: 'D:/terra-images/user-images/**',
+              protocol: 'https',
+              hostname: 'k4terrastorage.blob.core.windows.net',
+              port: '',
+              pathname: '**',
             },
-        ],
+          ],
     }
 };
 

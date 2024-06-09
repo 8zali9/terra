@@ -1,34 +1,32 @@
-import { writeFile } from 'fs/promises'
+import { BlobServiceClient } from '@azure/storage-blob';
 import { NextResponse } from "next/server";
-import { promises as fsPromises } from 'fs';
-import { join } from 'path';
 
 export async function POST(request) {
-  const path = 'D:/terra-images/user-images'
-  const data = await request.formData()
+  try {
+    const { base64Image, user_id } = await request.json();
 
-  const file = data.get('file');
-  const user_id = data.get('user_id')
+    const containerName = 'terra-user-images';
+    const connectionString = 'DefaultEndpointsProtocol=https;AccountName=k4terrastorage;AccountKey=fe/fQRHZLFRde8py8cO4B4P06gCSRSPsXT96qpS3zw+EH48p6DmmvaFY8z/qk0cRSF1Ha2UTy0a8+AStOUpMMQ==;EndpointSuffix=core.windows.net';
 
-  if (!file) return NextResponse.json({ error: "No file", status: 404 })
+    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
 
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
+    const existingBlobName = `user-${user_id}/profile.jpeg`;
+    const existingBlockBlobClient = containerClient.getBlockBlobClient(existingBlobName);
+    await existingBlockBlobClient.deleteIfExists();
 
-  const imagePath = join(path, user_id)
-  const fullPath = join(imagePath, file.name)
-  await fsPromises.mkdir(imagePath, { recursive: true });
+    const blobName = `user-${user_id}/profile.jpeg`;
+    const imageBuffer = Buffer.from(base64Image, 'base64');
+    
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.uploadData(imageBuffer, { blobHTTPHeaders: { blobContentType: 'image/jpeg' } });
 
-  const files = await fsPromises.readdir(imagePath);
-  for (const file of files) {
-    await fsPromises.unlink(join(imagePath, file));
+    const imagePath = `https://k4terrastorage.blob.core.windows.net/${containerName}/${blobName}`;
+    console.log("imagePath", imagePath)
+    
+    return NextResponse.json( { message: 'Image uploaded successfully', imagePath: imagePath } );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json( { error: 'Error occurred' } );
   }
-
-  await writeFile(fullPath, buffer)
-
-  return NextResponse.json({ 
-    message: "File Uploaded", 
-    imagePath: fullPath,
-    status: 201 
-  })
 }

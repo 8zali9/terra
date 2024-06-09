@@ -63,7 +63,7 @@ router.put('/update.user/:user_id', async(req, res) => {
         first_name, last_name, email, password, phone_number, user_profile_image
     } = req.body
 
-    try {
+    try {        
         const response = await updateUserService(
             first_name, last_name, email, password, phone_number, user_profile_image, user_id
         )
