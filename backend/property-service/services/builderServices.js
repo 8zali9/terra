@@ -48,7 +48,7 @@ const createBuilderService = async (builder_name, builder_website) => {
             return { error: "Cannot create builder", errorStatus: 500 };
         }
 
-        return { message: "Builder created.", response: builder_name };
+        return { message: "Builder created.", response: builder_id };
     } catch (error) {
         return { error: `Server/service error while creating builder: ${error}` };
     }

@@ -4,7 +4,8 @@ const apiReq = async (port, url, userOrPropertyID, method, body) => {
     const options = {
         method: method,
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
+        credentials: 'include',
+        next: { revalidate: 1 }
     }
 
     if (method !== 'GET' && method !== 'DELETE')
@@ -24,7 +25,8 @@ const apiReqByUserAndProperty = async (port, url, userId, propertyId, method, bo
     const options = {
         method: method,
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
+        credentials: 'include',
+        next: { revalidate: 1 }
     }
     
     if (method !== 'GET' && method !== 'DELETE') {

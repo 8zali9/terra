@@ -1,7 +1,7 @@
 "use client"
 
 import './add-property.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { apiReq } from '../utils/fetch';
 import Header from '../components/Header/Header';
 import { useRouter } from 'next/navigation';
@@ -13,10 +13,10 @@ export default function AddUpdatePropertyForm() {
     const [purpose, setPurpose] = useState("");
     const [price, setPrice] = useState(0);
     const [on_installment, setOn_installment] = useState(0);
-    const [installment_rate, setInstallment_rate] = useState("");
+    const [installment_rate, setInstallment_rate] = useState(0);
     const [bedrooms, setBedrooms] = useState(0);
-    const [bathrooms, setBathrooms] = useState("");
-    const [area, setArea] = useState("");
+    const [bathrooms, setBathrooms] = useState(0);
+    const [area, setArea] = useState(0);
     const [property_title, setProperty_title] = useState("");
     const [date_listed, setDate_listed] = useState(null);
     const [property_description, setProperty_description] = useState("");
@@ -26,12 +26,32 @@ export default function AddUpdatePropertyForm() {
     const [latitude, setLatitude] = useState(null);
     const [user_id, setUser_id] = useState(null);
     const [builder_name, setBuilder_name] = useState("");
-    const [location_name, setLocation_name] = useState("");
+    const [location_name, setLocation_name] = useState("DHA Phase 6");
     const [property_subtype_id, setProperty_subtype_id] = useState(1);
 
     const [image1, setImage1] = useState(null);
 
     const [isDisabled, setIsDisabled] = useState(false);
+
+    const [fetchedLocations, setFetchedLocations] = useState([])
+
+    useEffect(() => {
+        const fetchAllLocations = async () => {
+          try {
+            const res = await apiReq(8000, 'terra.property-service/get.allLocations', null, 'GET', null)
+    
+            const result = await res.json()
+            if (!result) {
+              toast.error("Cannot fetch locations")
+            }
+            setFetchedLocations(result.response)
+          } catch (error) {
+            toast.error("Cannot fetch locations")
+          }
+        }
+    
+        fetchAllLocations()
+      }, [])
 
     const handleFileChange = (e, setImage) => {
         const file = e.target.files[0];
@@ -45,6 +65,11 @@ export default function AddUpdatePropertyForm() {
     
         const currDate = new Date().toISOString().slice(0, 10);
         setDate_listed(currDate);
+
+        if (price <= 0 || bedrooms <= 0 || bathrooms <= 0 || area <= 0) {
+            toast.error("Please enter valid details");
+            return;
+        }
     
         if (image1) {
             const images = [image1];
@@ -68,7 +93,6 @@ export default function AddUpdatePropertyForm() {
                     const data = await response.json();
                     const { imagePaths } = data;
     
-                    // Ensure property_images is a JSON string
                     setproperty_images(JSON.stringify(imagePaths));
     
                     try {
@@ -118,6 +142,13 @@ export default function AddUpdatePropertyForm() {
             }
         }
     };
+
+    const handleToggleInstallment = () => {
+        setOn_installment(prev => prev === 0 ? 1 : 0);
+        if (on_installment === 1) {
+            setInstallment_rate(0);
+        }
+    };
     
     return (
         <div id='add-property-main-pg'>
@@ -132,7 +163,10 @@ export default function AddUpdatePropertyForm() {
                         </div>
                         <div id='purpose-div' className='add-property-form-inner-divs'>
                             <label htmlFor="purpose">Purpose</label>
-                            <input required type="text" id="purpose" value={purpose} onChange={(e) => setPurpose(e.target.value)} />
+                            <select required id="purpose" value={purpose} onChange={(e) => setPurpose(e.target.value)}>
+                                <option value="For rent">For Rent</option>
+                                <option value="For sale">For Sale</option>
+                            </select>
                         </div>
                     </div>
                     <div className='add-property-form-inner-divs' id='property-description-div'>
@@ -160,27 +194,45 @@ export default function AddUpdatePropertyForm() {
                                 </div>
                             </div>
                             <div id='price-installment-div'>
-                                <div id='location-name-div' className='add-property-form-inner-divs'>
-                                    <label htmlFor="location-name">Location name</label>
-                                    <input required type="text" id="location-name" value={location_name} onChange={(e) => setLocation_name(e.target.value)} />
+                                <div className='location-filter lft'>
+                                    <p className='location-head lh'>Location</p>
+                                    <select onChange={(e) => setLocation_name(e.target.value)} id='location-dropdown' name="location-dropdown">
+                                    { 
+                                        fetchedLocations &&
+                                        fetchedLocations.map(loc => (
+                                        <option key={loc.location_id} value={loc.location_name}>
+                                            {loc.location_name}
+                                        </option>
+                                        ))
+                                    }
+                                    </select>
                                 </div>
                                 <div id='price-div' className='add-property-form-inner-divs'>
                                     <label htmlFor="price">Price</label>
                                     <input required type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
                                 </div>
                                 <div id='on-installment-div' className='add-property-form-inner-divs'>
-                                    <label htmlFor="on-installment">On Installment</label>
-                                    <input required type="number" id="on-installment" value={on_installment} onChange={(e) => setOn_installment(e.target.value)} />
+                                    <label htmlFor="on-installment">On Installment {"(per month)"}</label>
+                                    <input type="checkbox" id="on-installment" checked={on_installment === 1} onChange={handleToggleInstallment} />
                                 </div>
-                                <div id='installment_rate-div' className='add-property-form-inner-divs'>
-                                    <label htmlFor="installment_rate">Installment Rate</label>
-                                    <input required type="number" id="installment_rate" value={installment_rate} onChange={(e) => setInstallment_rate(e.target.value)} />
-                                </div>
+                                {on_installment === 1 && (
+                                    <div id='installment_rate-div' className='add-property-form-inner-divs'>
+                                        <label htmlFor="installment_rate">Installment Rate</label>
+                                        <input type="number" id="installment_rate" value={installment_rate} onChange={(e) => setInstallment_rate(e.target.value)} />
+                                    </div>
+                                )}
                             </div>
                         </div>
-                        <div id='property-subtype-id-div flex-display-first-div' className='add-property-form-inner-divs'>
+                        <div id='property-subtype-id-div' className='add-property-form-inner-divs'>
                             <label htmlFor="property-subtype-id">Property subtype</label>
-                            <input required type="number" id="property-subtype-id" value={property_subtype_id} onChange={(e) => setProperty_subtype_id(e.target.value)} />
+                            <select required id="property-subtype-id" value={property_subtype_id} onChange={(e) => setProperty_subtype_id(e.target.value)}>
+                                <option value="1">House</option>
+                                <option value="2">Flat</option>
+                                <option value="3">Residential</option>
+                                <option value="4">Commercial</option>
+                                <option value="5">Offices</option>
+                                <option value="6">Shop</option>
+                            </select>
                         </div>
                     </div>
                     <div id='image-upload-section'>

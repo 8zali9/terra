@@ -12,10 +12,11 @@ const checkBuilder = async (builder_name) => {
     let createNewBuilder;
     if (builder.errorStatus === 404) {
         createNewBuilder = await createBuilderService(builder_name, null);
-        if (createNewBuilder.errorStatus === 500) {
+        if (await(createNewBuilder.errorStatus) === 500) {
             throw new Error("Cannot create new builder")
         }
-        return createNewBuilder
+        console.log(createNewBuilder.response)
+        return await createNewBuilder.response
     } else {
         return builder.response[0].builder_id
     }

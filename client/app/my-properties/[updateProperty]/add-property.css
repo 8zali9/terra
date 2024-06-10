@@ -71,15 +71,21 @@
 #flex-display-first-div{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
 }
 
-#property-subtype-id-div{
+#property-subtype-id-div,
+.location-filter{
     display: flex;
     align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* border: 3px solid black; */
+}
+
+.location-filter{
+    padding-bottom: 70px;
 }
 
 #bedrooms,
@@ -90,7 +96,8 @@
 #installment_rate,
 #builder-name,
 #location-name,
-#property-subtype-id{
+#property-subtype-id,
+#location-dropdown{
     padding: 8px;
 }
 
@@ -105,7 +112,8 @@
 #installment_rate,
 #builder-name,
 #location-name,
-#property-subtype-id{
+#property-subtype-id,
+#location-dropdown{
     border: 1px solid lightgray;
     transition: 0.3s ease;
     outline: none;
@@ -143,4 +151,12 @@
     background-color: white;
     color: orangered;
     border-color: orangered;
+}
+
+#price-installment-location-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
 }

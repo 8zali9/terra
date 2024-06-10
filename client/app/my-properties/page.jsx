@@ -88,6 +88,8 @@ export default function Page() {
                     )
                 }
             </div>
+
+            {/* <p className=" font-semibold text-center mb-2">&copy; Terra 2024 CSIT NEDUET</p> */}
         </div>
     )
 }

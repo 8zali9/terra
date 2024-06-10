@@ -4,6 +4,7 @@ import { apiReq } from '../utils/fetch';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Header from '../components/Header/Header';
+import './profile.css'
 
 export default function page() {
     const [first_name, setFirst_name] = useState("");
@@ -15,6 +16,8 @@ export default function page() {
     const [userDetails, setUserDetails] = useState(null);
     const [isDisabled, setIsDisabled] = useState(true);
     const [image, setImage] = useState(null);
+
+    const [a, setA] = useState(false)
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -39,9 +42,10 @@ export default function page() {
         };
 
         fetchUser();
-    }, []);
+    }, [a]);
 
     useEffect(() => {
+        console.log("this .........")
         if (userDetails) {
             setUser_profile_image(userDetails.user_profile_image);
             setFirst_name(userDetails.first_name);
@@ -52,26 +56,59 @@ export default function page() {
     }, [userDetails]);
 
     useEffect(() => {
-        if (first_name && last_name && email && phone_number) {
-            setIsDisabled(
-                userDetails.first_name === first_name &&
-                userDetails.last_name === last_name &&
-                userDetails.email === email &&
-                userDetails.phone_number === phone_number &&
-                userDetails.password === password
-            );
-        }
-    }, [first_name, last_name, email, phone_number, password]);
-
-    const handleImageFileChange = async (event) => {
+        setIsDisabled(
+            userDetails &&
+            userDetails.first_name === first_name &&
+            userDetails.last_name === last_name &&
+            userDetails.email === email &&
+            userDetails.phone_number === phone_number &&
+            userDetails.user_profile_image === user_profile_image &&
+            !image
+        );
+    }, [first_name, last_name, email, phone_number, user_profile_image, image, userDetails]);
+    
+    const handleImageFileChange = (event) => {
         const file = event.target.files[0];
         setImage(file);
+
+        console.log("file", file)
     };
 
     const handleUserUpdate = async (event) => {
         event.preventDefault();
 
         const user_id = localStorage.getItem("user_id");
+
+        const updateUserDetails = async (imagePath) => {
+            try {
+                const res = await apiReq(
+                    8000,
+                    'terra.user-service/update.user',
+                    user_id,
+                    'PUT',
+                    {
+                        first_name,
+                        last_name,
+                        email,
+                        password,
+                        phone_number,
+                        user_profile_image: imagePath || user_profile_image
+                    }
+                );
+
+                if (res.status === 200) {
+                    toast.success("Profile updated");
+                    setA(true)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    toast.error("Error updating your details");
+                }
+            } catch (error) {
+                toast.error("Error updating your details");
+            }
+        };
 
         if (image) {
             try {
@@ -92,32 +129,14 @@ export default function page() {
                         const data = await response.json();
                         const newImagePath = data.imagePath;
                         setUser_profile_image(newImagePath);
-
-                        try {
-                            const res = await apiReq(
-                                8000,
-                                'terra.user-service/update.user',
-                                user_id,
-                                'PUT',
-                                { first_name, last_name, email, password, phone_number, user_profile_image: newImagePath }
-                            );
-
-                            if (res.status === 200) {
-                                toast.success("Profile updated");
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 2000);
-                            } else {
-                                toast.error("Error updating your details");
-                            }
-                        } catch (error) {
-                            toast.error("Error updating your details");
-                        }
+                        updateUserDetails(newImagePath);
                     }
                 };
             } catch (error) {
                 toast.error('Image upload failed');
             }
+        } else {
+            updateUserDetails();
         }
     };
 
@@ -136,13 +155,14 @@ export default function page() {
                     <div className='align-middle pl-10 w-[30%]'>
                         {
                             user_profile_image ? (
-                                <img
-                                    className='rounded-[50%]'
-                                    width='200px'
-                                    height='300px'
+                                <div className='w-[12rem] h-[12rem] rounded-[50%]'>
+                                    <img
+                                    id='profile-present-img'
+                                    className='rounded-[50%] object-cover overflow-hidden'
                                     src={user_profile_image}
                                     alt='profile'
-                                />
+                                    />
+                                </div>
                             ) : (
                                 <img src='./icons/profile-avatar.png' alt="profile" width='200px' height='300px' />
                             )

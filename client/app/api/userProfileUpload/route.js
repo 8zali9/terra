@@ -23,7 +23,7 @@ export async function POST(request) {
 
     return NextResponse.json({ message: 'Image uploaded successfully', imagePath: imagePath });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Error occurred' });
+    console.error('Error during image upload:', error);
+    return NextResponse.json({ error: 'Error occurred during image upload' });
   }
 }

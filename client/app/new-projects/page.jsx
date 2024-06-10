@@ -74,7 +74,6 @@ export default function page() {
         null,
         'POST',
         { property_subtype_id, location_name, minPrice, maxPrice, numberOfRooms }
-
       )
 
       const result = await res.json()
@@ -214,11 +213,13 @@ export default function page() {
                     searchResults &&
                     searchResults.map((property, index) => (
                     <div className="property-card-of-results pc" key={index}>
-                      <img src={property.property_images && property.property_images[0] ? property.property_images[0] : '/imgs/1.jpg'} alt="Property" />
+                      <div id='search-result-property-imgs-div'>
+                        <img id='search-result-property-imgs' src={property.property_images && property.property_images[0] ? property.property_images[0] : '/imgs/1.jpg'} alt="Property" />
+                      </div>
                       <div className="card-details">
                         <h3>PKR {property.price}</h3>
                         <p>{property.purpose}</p>
-                        <p>{property.property_description}</p>
+                        <p>{property.property_description.substring(0, 100)}...</p>
                         <div id='property-ad-bed-bath-area-div-right'>
                             <div className='property-ad-property-bed-bath-area'>
                                 <LiaBedSolid className='property-ad-bed-bath-area-icon' />
@@ -243,6 +244,7 @@ export default function page() {
             </div>
 
         </div>
+        {/* <p className=" font-semibold text-center mb-2">&copy; Terra 2024 CSIT NEDUET</p> */}
     </div>
   )
 }

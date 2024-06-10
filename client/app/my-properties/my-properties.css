@@ -55,7 +55,9 @@
 
 #user-property-img{
     border-radius: 4px;
-    width: 100%;
+    width: 378px;
+    height: 251px;
+    object-fit: fill;
 }
 
 .user-property-details-div{

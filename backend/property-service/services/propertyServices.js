@@ -74,6 +74,8 @@ const createPropertyService = async (
             property_images, longitude, latitude, user_id, builder_id, location_id, property_subtype_id
         );
 
+        console.log(response)
+
         if (response.dbStatus === 500) {
             return { error: "DB error." };
         } else if (response.dbStatus === 404) {
