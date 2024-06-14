@@ -2,6 +2,7 @@ const { db } = require('../conn_db/connect')
 const dbStatusObject = require('./dbStatus')
 require('dotenv').config()
 const util = require('util')
+const { error } = require('../utils/Error')
 const {
     getUserQuery,
     getUserByEmailQuery,
@@ -14,12 +15,13 @@ const {
 const accessData = async (query, queryParams = []) => {
     try {
         const dbResponse = await db.promise().query(query, queryParams);
-        if (dbResponse[0].length == 0) {
-            return { result: "user doesn't exist", dbStatus: dbStatusObject.notFound };
+        if (dbResponse[0].length === 0)
+            throw error("user doesn't exist", 404)
+        else {
+            return { response: dbResponse[0][0] };
         }
-        return { response: dbResponse[0][0], dbStatus: dbStatusObject.ok };
-    } catch (err) {
-        return { err };
+    } catch (error) {
+        throw error
     }
 };
 

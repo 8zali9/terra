@@ -54,6 +54,7 @@ export default function SignForm() {
             <form onSubmit={handleSubmit} className='sign-form'>
                 <legend className='signform-legend'>Sign in to your account</legend>
                 <input
+                    required
                     className='signform-input'
                     type="email"
                     placeholder='Your Email'
@@ -61,6 +62,7 @@ export default function SignForm() {
                     value={userEmail}
                 />
                 <input
+                    required
                     className='signform-input'
                     type="password"
                     placeholder='Your Password'

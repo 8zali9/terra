@@ -11,7 +11,7 @@ const proxyReq = async (req, res) => {
                 host: 'localhost'
             }
         })
-
+        console.log(response)
         res.status(response.status).json(response.data)
     } catch (error) {
         if (error.response)

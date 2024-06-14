@@ -2,6 +2,7 @@ const express = require('express')
 const authenticate = require('../middleware/auth')
 const proxyReq = require('../utils/proxyRequest')
 const generateToken = require('../utils/generateToken')
+const matchPassword = require('../utils/matchPassword')
 require('dotenv').config()
 const mysql = require('mysql2')
 
@@ -39,6 +40,16 @@ router.post('/signin',  async(req, res) => {
   try {
     const { userEmail, userPassword } = req.body
     const user = await getUserByEmail(userEmail, userPassword)
+    // console.log(user)
+    const passMatchCheck = await matchPassword(
+      userPassword,
+      user[0].password
+    );
+
+    if (!passMatchCheck) {
+      return res.status(401).json({ error: "Incorrect Credentials." });
+    }
+
     await generateToken(res, user)
     res.status(200).json({ message: "User Signed in.", user })
   } catch (error) {

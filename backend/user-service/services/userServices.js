@@ -1,12 +1,11 @@
 const {
     getUser,
-    getUserByEmail,
     createUser,
     updateUser,
     updateUserWithoutPassword,
     deleteUser
 } = require('../dal/dataAccessLogic')
-const matchPassword = require('../utils/matchPassword')
+const { error } = require('../utils/Error')
 const hashPassword = require('../utils/hashPassword')
 const { v4: uuidv4 } = require('uuid')
 
@@ -14,14 +13,15 @@ const getUserService = async (user_id) => {
     try {
         const response = await getUser(user_id)
 
-        if (response.dbStatus === 500) {
-            return { error: "DB error.", errorStatus: 500 }
-        } else if (response.dbStatus === 404) {
-            return { error: "User not found", errorStatus: 404 }
+        if (response.errorCode === 500) {
+            throw error(`DB error: ${response}`, 500)
+        } else if (response.errorCode === 404) {
+            throw error(`User not found: ${response}`, 404)
+        } else {
+            return { message: "User fetched.", response: response.response }
         }
-        return {message: "User fetched.", response: response.response}
     } catch (error) {
-        return { error: `server/service error while getting user: ${error}` }
+        throw error
     }
 }
 
@@ -35,15 +35,15 @@ const createUserService = async (
             user_id, first_name, last_name, email, hashedPassword, phone_number
         )
 
-        if (response.dbStatus === 500) {
-            return { error: "DB error." }
-        } else if (response.dbStatus === 404) {
-            return { error: "Cannot signup" }
+        if (response.errorCode === 500) {
+            throw error(`DB error: ${response}`, 500)
+        } else if (response.errorCode === 404) {
+            throw error(`Cannot signup: ${response}`, 404)
+        } else {
+            return { message: "User Created.", response: email }
         }
-
-        return {message: "User Created.", response: email }
     } catch (error) {
-        return { error: `server/service error while creating user: ${error}` }
+        throw error
     }
 }
 
@@ -51,7 +51,6 @@ const updateUserService = async (
     first_name, last_name, email, password, phone_number, user_profile_image, user_id
 ) => {
     try {
-        // console.log(user_profile_image)
         let response;
         if (password) {
             let hashedPassword;
@@ -70,29 +69,31 @@ const updateUserService = async (
             )
         }
 
-        if (response.dbStatus === 500) {
-            return { error: "DB error.", errorStatus: 500 }
-        } else if (response.dbStatus === 404) {
-            return { error: "User not found", errorStatus: 404 }
+        if (response.errorCode === 500) {
+            throw error(`DB error: ${response}`, 500)
+        } else if (response.errorCode === 404) {
+            throw error(`Cannot update user: ${response}`, 500)
+        } else {
+            return { message: "User updated.", response: email, okStatus: 200 }
         }
-        return { message: "User updated.", response: email, okStatus: 200 }
     } catch (error) {
-        return { error: `server/service error while updating user: ${error}` }
+        throw error
     }
 }
 
 const deleteUserService = async (user_id) => {
     try {
         const response = await deleteUser(user_id)
-
-        if (response.dbStatus === 500) {
-            return { error: "DB error.", errorStatus: 500 }
-        } else if (response.dbStatus === 404) {
-            return { error: "User not found", errorStatus: 404 }
+        
+        if (response.errorCode === 500) {
+            throw error(`DB error: ${response}`, 500)
+        } else if (response.errorCode === 404) {
+            throw error(`Cannot delete user: ${response}`, 500)
+        } else {
+            return { message: "User deleted.", response: response.response }
         }
-        return {message: "User deleted.", response: response.response}
     } catch (error) {
-        return { error: `server/service error while deleting user: ${error}` }
+        return error
     }
 }
 

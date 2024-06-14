@@ -65,12 +65,12 @@ export default function Page({ params }) {
             <div className='m-10 mt-4 p-6 flex gap-16'>
                 {/* left side */}
                 {propertyDetails && (
-                    <div className=' w-[70%]'>
+                    <div className='w-[70%]'>
                         {/* <p>{propertyDetails.user_id} this {user_id}</p> */}
                         {/* picture and graphical */}
                         <div className=' w-full'>
                             <p className=' font-semibold mb-3'>{propertyDetails.property_title}</p>
-                            <img className="rounded-lg" id='user-property-img' src={propertyDetails.property_images && propertyDetails.property_images[0] ? propertyDetails.property_images[0] : '/imgs/1.jpg'} alt="Property" />
+                            <img className="rounded-lg w-[100%]" id='user-property-img' src={propertyDetails.property_images && propertyDetails.property_images[0] ? propertyDetails.property_images[0] : '/imgs/1.jpg'} alt="Property" />
                         </div>
                         <div className=' flex justify-between mt-8'>
                             {/* money and location */}
@@ -138,7 +138,7 @@ export default function Page({ params }) {
                             className="group relative flex gap-3 w-[90%] mt-6 mx-auto justify-center mb-8 border-[#ED6755]  border-2 rounded-md bg-white py-3 px-3 text-sm font-semibold text-black hover:bg-[#d0796d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                         >
                             <img src='/icons/chat-icon.png' width={23} alt="chat"/>
-                            {onlineUsers.includes(propertyDetails.user_id) && propertyDetails.user_id !== user_id && localStorage.getItem('user_id') ? (
+                            {onlineUsers.includes(propertyDetails.user_id) && propertyDetails.user_id !== user_id ? (
                                 <Link id='property-owner-section-chat-btn' href={`/chat/${propertyDetails.user_id}`}>Have a Chat</Link>
                             ) : (
                                 <div>Owner is not online</div>

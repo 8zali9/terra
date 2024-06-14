@@ -8,6 +8,7 @@ const {
 } = require('../services/userServices')
 // message queue
 const { amq_init } = require('../../message-queue/amq_init')
+const { error } = require('../utils/Error')
 
 router.get('/', (req, res) => {
     res.status(200).json({ api_check: "all ok" })
@@ -18,16 +19,17 @@ router.get('/get.user/:user_id', async (req, res) => {
     const user_id = req.params.user_id
 
     try {
-        const response = await getUserService(user_id)
-        if (response.errorStatus === 500) {
-            res.status(500).json({ response: response.error })
-        } else if (response.errorStatus === 404) {
-            res.status(404).json({ response: response.error })
-        } else {
-            res.status(200).json({ message: "User fetched.", response: response.response })
-        }
+        if (!user_id)
+            throw error("User ID missing", 404)
+
+        const user = await getUserService(user_id)
+
+        if ("errno" in user)
+            throw error(`Error getting user: ${user}`, 500)
+        
+        res.status(200).json(user)
     } catch (error) {
-        res.status(500).json({ error: `server error while getting user: ${error}` })
+        res.status(error.errorCode).json({ error: error.errorMessage })
     }
 })
 
@@ -38,21 +40,21 @@ router.post('/create.user', async(req, res) => {
     } = req.body
 
     try {
+        if (!first_name || !last_name || !email || !password || !phone_number)
+            throw error("Parameters missing", 404)
+
         const response = await createUserService(
             first_name, last_name, email, password, phone_number
         )
 
-        if (response.errorStatus === 500) {
-            res.status(500).json({ response: response.error })
-        } else if (response.errorStatus === 404) {
-            res.status(404).json({ response: response.error })
-        } else {
-            const userEmail = response.response
-            amq_init("pub", userEmail, "account-creation-notification")
-            res.status(201).json({ message: "User created.", response: response.response })
-        }
+        if ("errno" in response)
+            throw error(`Error creating user: ${response}`, 500)
+
+        const userEmail = response.response
+        amq_init("pub", userEmail, "account-creation-notification")
+        res.status(201).json({ message: "User created.", response: response.response })
     } catch (error) {
-        res.status(500).json({ error: `server error while creating user: ${error}` })
+        res.status(error.errorCode).json({ error: error.errorMessage })
     }
 })
 
@@ -64,21 +66,21 @@ router.put('/update.user/:user_id', async(req, res) => {
     } = req.body
 
     try {        
+        if (!user_id || !first_name || !last_name || !email || !phone_number || !user_profile_image)
+            throw error("Parameters missing", 404)
+
         const response = await updateUserService(
             first_name, last_name, email, password, phone_number, user_profile_image, user_id
         )
 
-        if (response.errorStatus === 500) {
-            res.status(500).json({ response: response.error })
-        } else if (response.errorStatus === 404) {
-            res.status(404).json({ response: response.error })
-        } else if (response.okStatus === 200) {
-            const userEmail = response.response
-            amq_init("pub", userEmail, "account-updation-notification")
-            res.status(200).json({ message: "User updated.", response: response.response })
-        }
+        if ("errno" in response)
+            throw error(`Error updating user: ${response}`, 500)
+
+        const userEmail = response.response
+        amq_init("pub", userEmail, "account-updation-notification")
+        res.status(200).json({ message: "User updated.", response: response.response })
     } catch (error) {
-        res.status(500).json({ error: `server error while updating user: ${error}` })
+        res.status(error.errorCode).json({ error: error.errorMessage })
     }
 })
 
@@ -87,16 +89,17 @@ router.delete('/delete.user/:user_id', async(req, res) => {
     const user_id = req.params.user_id
 
     try {
+        if (!user_id)
+            throw error("User ID missing", 404)
+        
         const response = await deleteUserService(user_id)
-        if (response.errorStatus === 500) {
-            res.status(500).json({ response: response.error })
-        } else if (response.errorStatus === 404) {
-            res.status(404).json({ response: response.error })
-        } else {
-            res.status(204).json({ message: "User deleted.", response: response.response })
-        }
+
+        if ("errno" in response)
+            throw error(`Error deleting user: ${response}`, 500)
+
+        res.status(200).json({ message: "User deleted." })
     } catch (error) {
-        res.status(500).json({ error: `server error while deleted user: ${error}` })
+        res.status(error.errorCode).json({ error: error.errorMessage })
     }
 })
 
